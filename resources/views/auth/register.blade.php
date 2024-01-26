@@ -1,52 +1,76 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
-
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+@extends('layouts.blank')
+@section('content')
+    <section class="h-screen w-full bg-center bg-no-repeat bg-gray-700 bg-blend-multiply relative" style="background: url({{ asset('images/bg_login.png') }}); background-repeat: no-repeat; background-size: cover;">
+        <div class="h-full w-full bg-gradient-to-br from-gray-900 to-transparent opacity-80 mask-layer absolute top-0 left-0"></div>
+        <div class="container flex items-center justify-center h-full relative">
+            <div class="w-96 bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
+                <img class="h-auto mx-auto mb-8" src="{{ asset('images/Logo.png') }}" alt="image description">
+                <form method="POST" action="{{ route('register') }}">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Full Name</label>
+                        <input type="text" id="name" name="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John Doe" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
+                        <input type="email" id="email" name="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="john.doe@gmail.com" required>
+                    </div>
+                    <div class="mb-3 relative">
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                        <div class="relative w-full">
+                            <input type="password" id="password" name="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required>
+                            <button type="button" id="show-password-btn" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 focus:outline-none">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3 relative">
+                        <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm Password</label>
+                        <div class="relative w-full">
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="•••••••••" required>
+                            <button type="button" id="show-password-confirmation-btn" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 focus:outline-none">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3 flex items-center justify-between">
+                        <button type="submit" class="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200">
+                            Register
+                        </button>
+                    </div>
+                    <div class="mb-3">
+                        <p class="text-gray-600 dark:text-gray-400">Already have an account? <a href="{{ route('login') }}" class="text-blue-500 hover:underline">Log in here</a></p>
+                    </div>
+                </form>
+            </div>
         </div>
+    </section>
+@endsection
+@section('script')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const passwordInput = document.getElementById('password');
+        const showPasswordBtn = document.getElementById('show-password-btn');
+        const passwordConfirmationInput = document.getElementById('password_confirmation');
+        const showPasswordConfirmationBtn = document.getElementById('show-password-confirmation-btn');
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        showPasswordBtn.addEventListener('click', function () {
+            togglePasswordVisibility(passwordInput, showPasswordBtn);
+        });
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        showPasswordConfirmationBtn.addEventListener('click', function () {
+            togglePasswordVisibility(passwordConfirmationInput, showPasswordConfirmationBtn);
+        });
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+        function togglePasswordVisibility(inputElement, buttonElement) {
+            if (inputElement.type === 'password') {
+                inputElement.type = 'text';
+                buttonElement.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                inputElement.type = 'password';
+                buttonElement.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        }
+    });
+</script>
+@endsection

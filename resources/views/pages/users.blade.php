@@ -87,13 +87,16 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="p-4 text-base font-normal text-gray-500 truncate max-w-xs xl:max-w-sm text-center dark:text-gray-400">
+                                <td
+                                    class="p-4 text-base font-normal text-gray-500 truncate max-w-xs xl:max-w-sm text-center dark:text-gray-400">
                                     Email@gmail.com
                                 </td>
-                                <td class="p-4 text-base font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">
+                                <td
+                                    class="p-4 text-base font-medium text-gray-900 text-center whitespace-nowrap dark:text-white">
                                     Jabatan
                                 </td>
-                                <td class="p-4 text-base font-normal text-gray-900 text-center whitespace-nowrap dark:text-white">
+                                <td
+                                    class="p-4 text-base font-normal text-gray-900 text-center whitespace-nowrap dark:text-white">
                                     <div class="flex items-center justify-center">
                                         <div class="h-2.5 w-2.5 rounded-full bg-green-400 mr-2"></div>
                                         Active
@@ -195,8 +198,7 @@
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
                         data-modal-toggle="edit-user-modal">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                                 clip-rule="evenodd"></path>
@@ -238,32 +240,34 @@
                                     placeholder="e.g. React developer" required>
                             </div>
                             <div class="col-span-6 sm:col-span-3 relative">
-                                <label for="current-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current Password</label>
+                                <label for="current-password"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Current
+                                    Password</label>
                                 <div class="w-full relative">
-                                    <input type="password" name="current-password" value="••••••••" id="current-password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="••••••••" required>
-                                    <button type="button" id="show-current-password-btn" class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 focus:outline-none">
+                                    <input type="password" name="current-password" value="••••••••"
+                                        id="current-password"
+                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="••••••••" required>
+                                    <button type="button" id="show-current-password-btn"
+                                        class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 focus:outline-none">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
 
                             </div>
                             <div class="col-span-6 sm:col-span-3 relative">
-                                <label for="new-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New Password</label>
+                                <label for="new-password"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">New
+                                    Password</label>
                                 <div class="w-full relative">
-                                    <input type="password" name="new-password" value="••••••••" id="new-password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="••••••••" required>
-                                    <button type="button" id="show-password-btn"
-                                    class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 focus:outline-none">
-                                    <i class="fas fa-eye"></i>
-                                </button>
+                                    <input type="password" name="new-password" value="••••••••" id="new-password"
+                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="••••••••" required>
+                                    <button type="button" id="show-new-password-btn"
+                                        class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 focus:outline-none">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
                                 </div>
-
-                            </div>
-                            <div class="col-span-6">
-                                <label for="biography"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Biography</label>
-                                <textarea id="biography" rows="4"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="👨‍💻Full-stack web developer. Open-source contributor.">👨‍💻Full-stack web developer. Open-source contributor.</textarea>
                             </div>
                         </div>
                 </div>
@@ -292,8 +296,7 @@
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
                         data-modal-toggle="add-user-modal">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                                 clip-rule="evenodd"></path>
@@ -334,13 +337,6 @@
                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                     placeholder="e.g. React developer" required>
                             </div>
-                            <div class="col-span-6">
-                                <label for="biography"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Biography</label>
-                                <textarea id="biography" rows="4"
-                                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="👨‍💻Full-stack web developer. Open-source contributor."></textarea>
-                            </div>
                         </div>
                 </div>
                 <!-- Modal footer -->
@@ -365,8 +361,7 @@
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
                         data-modal-hide="delete-user-modal">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                                 clip-rule="evenodd"></path>
@@ -375,8 +370,8 @@
                 </div>
                 <!-- Modal body -->
                 <div class="p-6 pt-0 text-center">
-                    <svg class="w-16 h-16 mx-auto text-red-600" fill="none" stroke="currentColor"
-                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg class="w-16 h-16 mx-auto text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
@@ -398,13 +393,13 @@
 @endsection
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const currentPasswordInput = document.getElementById('current-password');
         const showCurrentPasswordBtn = document.getElementById('show-current-password-btn');
         const newPasswordInput = document.getElementById('new-password');
         const showNewPasswordBtn = document.getElementById('show-new-password-btn');
 
-        showCurrentPasswordBtn.addEventListener('click', function () {
+        showCurrentPasswordBtn.addEventListener('click', function() {
             if (currentPasswordInput.type === 'password') {
                 currentPasswordInput.type = 'text';
                 showCurrentPasswordBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
@@ -413,7 +408,7 @@
                 showCurrentPasswordBtn.innerHTML = '<i class="fas fa-eye"></i>';
             }
         });
-        showNewPasswordBtn.addEventListener('click', function () {
+        showNewPasswordBtn.addEventListener('click', function() {
             if (newPasswordInput.type === 'password') {
                 newPasswordInput.type = 'text';
                 showNewPasswordBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';

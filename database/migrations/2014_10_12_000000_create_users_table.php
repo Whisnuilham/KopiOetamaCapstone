@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('jabatan')->default(3)->comment('1 admin, 2 manager, 3 staff');
+            $table->boolean('status')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

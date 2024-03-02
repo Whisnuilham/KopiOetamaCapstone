@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ingredient_stockController;
+use App\Http\Controllers\IngredientStockController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
@@ -30,12 +30,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::prefix('ingredient-stock')->group(function () {
 
-            Route::get('/', [ingredient_stockController::class, 'index'])->name('ingredient_stock');
-            Route::post('store', [ingredient_stockController::class, 'store'])->name('ingredient_stock.store');
-            Route::post('/{id}/update', [ingredient_stockController::class, 'update'])->name('ingredient_stock.update');
-            Route::delete('/{id}/delete', [ingredient_stockController::class, 'destroy'])->name('ingredient_stock.destroy');
+    Route::prefix('ingredient-stock')->group(function () {
+            Route::get('/', [IngredientStockController::class, 'index'])->name('ingredient_stock');
+            Route::post('store', [IngredientStockController::class, 'store'])->name('ingredient_stock.store');
+            Route::post('/{id}/update', [IngredientStockController::class, 'update'])->name('ingredient_stock.update');
+            Route::delete('/{id}/delete', [IngredientStockController::class, 'destroy'])->name('ingredient_stock.destroy');
     });
     Route::prefix('users')->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('users');
@@ -57,6 +57,5 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::resource('products', 'ProductController');
 require __DIR__.'/auth.php';
 

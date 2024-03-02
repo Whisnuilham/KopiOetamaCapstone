@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ingredient_Stock extends Model
+class IngredientStock extends Model
 {
     use HasFactory;
  /**
@@ -14,7 +14,6 @@ class Ingredient_Stock extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'product_id',
         'ingredient_name',
         'category',
         'in_stock',

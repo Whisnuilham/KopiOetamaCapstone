@@ -16,6 +16,7 @@ class ProductController extends Controller
         $products=Product::paginate(10);
         return view('pages.product')->with([
             'products'=>$products
+
         ]);
     }
 

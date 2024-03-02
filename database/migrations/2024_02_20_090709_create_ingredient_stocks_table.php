@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('ingredient_stocks', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->foreign('product_id')->references("id")->on('products')->cascadeOnDelete();
             $table->string('ingredient_name');
             $table->string('category');
             $table->integer('in_stock')->default(0);

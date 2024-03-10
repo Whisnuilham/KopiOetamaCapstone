@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
@@ -14,8 +15,10 @@ class ProductController extends Controller
     public function index()
     {
         $products=Product::paginate(10);
+        $categories=Category::all();
         return view('pages.product')->with([
-            'products'=>$products
+            'products'=>$products,
+            'categories'=>$categories,
 
         ]);
     }
@@ -36,12 +39,12 @@ class ProductController extends Controller
         //
         $request->validate([
             'product_name'=>'required',
-            'category'=>'required',
+            'category_id'=>'required',
         ]);
 
         Product::create ([
             'product_name'=>$request->product_name,
-            'category'=>$request->category,
+            'category_id'=>$request->category_id,
             'description'=>$request->description,
         ]);
 
@@ -72,12 +75,12 @@ class ProductController extends Controller
         //
         $request->validate([
             'product_name'=>'required',
-            'category'=>'required',
+            'category_id'=>'required',
         ]);
 
         Product::find($id)->update ([
             'product_name'=>$request->product_name,
-            'category'=>$request->category,
+            'category_id'=>$request->category_id,
             'description'=>$request->description,
         ]);
 

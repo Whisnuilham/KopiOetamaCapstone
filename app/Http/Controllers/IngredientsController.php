@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
-use App\Models\IngredientStock;
 use Illuminate\Http\Request;
 
-class IngredientStockController extends Controller
+class IngredientsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +13,9 @@ class IngredientStockController extends Controller
     public function index()
     {
 
-        $ingredient_stocks=IngredientStock::paginate(10);
-        $ingredients=Ingredient::all();
-        return view('pages.ingredient_stock')->with([
-            'ingredient_stocks'=>$ingredient_stocks,
-            'ingredients'=>$ingredients,
+        $ingredients=Ingredient::paginate(10);
+        return view('pages.ingredients')->with([
+            'ingredients'=>$ingredients
         ]);
     }
 
@@ -37,15 +34,17 @@ class IngredientStockController extends Controller
     {
          //
          $request->validate([
-            'ingredient_id'=>'required',
-            'in_stock'=>'required',
-            'date'=>'required',
+            'ingredient_name'=>'required',
+            'category'=>'required',
+            'unit'=>'required',
+
         ]);
 
-        IngredientStock::create ([
-            'ingredient_id'=>$request->ingredient_id,
-            'in_stock'=>$request->in_stock,
-            'date'=>$request->date,
+        Ingredient::create ([
+            'ingredient_name'=>$request->ingredient_name,
+            'category'=>$request->category,
+            'unit'=>$request->unit,
+
         ]);
 
         return redirect()->back()->with('success','Ingredient berhasil ditambahkan');
@@ -74,15 +73,17 @@ class IngredientStockController extends Controller
     {
          //
          $request->validate([
-            'ingredient_id'=>'required',
-            'in_stock'=>'required',
-            'date'=>'required',
+            'ingredient_name'=>'required',
+            'category'=>'required',
+            'unit'=>'required',
+
         ]);
 
-        IngredientStock::find($id)->update ([
-            'ingredient_id'=>$request->ingredient_id,
-            'in_stock'=>$request->in_stock,
-            'date'=>$request->date,
+        Ingredient::find($id)->update ([
+            'ingredient_name'=>$request->ingredient_name,
+            'category'=>$request->category,
+            'unit'=>$request->unit,
+
         ]);
 
         return redirect()->back()->with('success','Ingredient berhasil diupdate');
@@ -94,7 +95,8 @@ class IngredientStockController extends Controller
     public function destroy(string $id)
     {
         //
-        IngredientStock::find($id)->delete();
+        Ingredient::find($id)->delete();
         return redirect()->back()->with('success','Ingredient berhasil di hapus');
     }
 }
+

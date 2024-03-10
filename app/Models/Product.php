@@ -16,7 +16,18 @@ class Product extends Model
      */
     protected $fillable = [
         'product_name',
-        'category',
+        'category_id',
         'description',
     ];
+    public function category(){
+        return $this ->belongsTo(Category::class,'category_id','id');
+    }
+    public function ingredients (){
+        return $this-> belongsToMany(
+          IngredientStock::class,
+          'product_ingredient',
+          'product_id',
+          'ingredient_id',
+        );
+    }
 }

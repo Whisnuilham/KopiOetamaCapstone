@@ -3,15 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use app\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('pages.users');
+        $users=User::paginate(10);
+        return view('pages.users')->with([
+            'users'=>$users
+        ]);
     }
 
     /**
@@ -51,7 +56,25 @@ class UsersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         //
+         $request->validate([
+            'name'=>'required',
+            'email'=>'required',
+        ]);
+
+        User::find($id)->update ([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'jabatan'=>$request->jabatan,
+
+        ]);
+            if($request-> password !=''){
+                User::find($id)->update ([
+                    'password'=>Hash::make($request->password)
+                ]);
+            }
+        return redirect()->back()->with('success','User berhasil diupdate');
+
     }
 
     /**
@@ -59,6 +82,8 @@ class UsersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+         //
+         User::find($id)->delete();
+         return redirect()->back()->with('success','User berhasil di hapus');
     }
 }

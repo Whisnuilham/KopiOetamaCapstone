@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\IngredientStockController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\UsersController;
+use App\Http\Controllers\UserController;
+use App\Models\Ingredient;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::prefix('ingredients')->group(function () {
+        Route::get('/', [IngredientsController::class, 'index'])->name('ingredients');
+        Route::post('store', [IngredientsController::class, 'store'])->name('ingredients.store');
+        Route::post('/{id}/update', [IngredientsController::class, 'update'])->name('ingredients.update');
+        Route::delete('/{id}/delete', [IngredientsController::class, 'destroy'])->name('ingredients.destroy');
+});
     Route::prefix('ingredient-stock')->group(function () {
             Route::get('/', [IngredientStockController::class, 'index'])->name('ingredient_stock');
             Route::post('store', [IngredientStockController::class, 'store'])->name('ingredient_stock.store');
@@ -38,10 +47,10 @@ Route::middleware('auth')->group(function () {
             Route::delete('/{id}/delete', [IngredientStockController::class, 'destroy'])->name('ingredient_stock.destroy');
     });
     Route::prefix('users')->group(function () {
-        Route::get('/', [UsersController::class, 'index'])->name('users');
-            Route::post('store', [UsersController::class, 'store'])->name('users.store');
-            Route::post('/{id}/update', [UsersController::class, 'update'])->name('users.update');
-            Route::delete('/{id}/delete', [UsersController::class, 'destroy'])->name('users.destroy');
+        Route::get('/', [UserController::class, 'index'])->name('users');
+            Route::post('store', [UserController::class, 'store'])->name('users.store');
+            Route::post('/{id}/update', [UserController::class, 'update'])->name('users.update');
+            Route::delete('/{id}/delete', [UserController::class, 'destroy'])->name('users.destroy');
     });
     Route::prefix('product')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('product');
@@ -54,6 +63,12 @@ Route::middleware('auth')->group(function () {
             Route::post('store', [PenjualanController::class, 'store'])->name('penjualan.store');
             Route::post('/{id}/update', [PenjualanController::class, 'update'])->name('penjualan.update');
             Route::delete('/{id}/delete', [PenjualanController::class, 'destroy'])->name('penjualan.destroy');
+    });
+    Route::prefix('category')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('category');
+            Route::post('store', [CategoryController::class, 'store'])->name('category.store');
+            Route::post('/{id}/update', [CategoryController::class, 'update'])->name('category.update');
+            Route::delete('/{id}/delete', [CategoryController::class, 'destroy'])->name('category.destroy');
     });
 });
 

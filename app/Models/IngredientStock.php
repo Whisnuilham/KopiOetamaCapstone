@@ -14,11 +14,13 @@ class IngredientStock extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ingredient_name',
-        'category',
+        'ingredient_id',
         'in_stock',
         'on_stock',
         'date',
     ];
 
+    public function ingredient(){
+        return $this->belongsTo(Ingredient::class,'ingredient_id','id');
+    }
 }

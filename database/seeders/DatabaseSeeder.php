@@ -21,5 +21,10 @@ class DatabaseSeeder extends Seeder
             'password'=>Hash::make('12345678'),
             'jabatan'=>1,
         ]);
+        $this->call([
+            CategoriesSeeder::class,
+            ProductSeeder::class,
+            IngredientSeeder::class,
+        ]);
     }
 }

@@ -29,60 +29,57 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                                 <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Ingredient
-                                    Stock</span>
+                                    </span>
                             </div>
                         </li>
                     </ol>
                 </nav>
                 @if (session('success'))
-                    <div class="flex justify-center">
-                        <div id="toast-success"
-                            class="flex items-center w-1/3 p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
-                            role="alert">
-                            <div
-                                class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
-                                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-                                </svg>
-                                <span class="sr-only">Check icon</span>
-                            </div>
-                            <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
-                            <button type="button"
-                                class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
-                                data-dismiss-target="#toast-success" aria-label="Close">
-                                <span class="sr-only">Close</span>
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                @endif
-                @if ($errors->any())
-                    <div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+                <div class="flex justify-center">
+                    <div id="toast-success"
+                        class="flex items-center w-1/3 p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800"
                         role="alert">
-                        <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-                        </svg>
-                        <span class="sr-only">Info</span>
-                        <div>
-                            <span class="font-medium">Error</span>
-                            <ul class="mt-1.5 list-disc list-inside">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                        <div
+                            class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+                            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path
+                                    d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
+                            </svg>
+                            <span class="sr-only">Check icon</span>
                         </div>
+                        <div class="ms-3 text-sm font-normal">{{ session('success') }}</div>
+                        <button type="button"
+                            class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                            data-dismiss-target="#toast-success" aria-label="Close">
+                            <span class="sr-only">Close</span>
+                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 14 14">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            </svg>
+                        </button>
                     </div>
-                @endif
+                </div>
+            @endif
+            @if ($errors->any())
+            <div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800" role="alert">
+              <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+              </svg>
+              <span class="sr-only">Info</span>
+              <div>
+                  <span class="font-medium">Error</span>
+                  <ul class="mt-1.5 list-disc list-inside">
+                      @foreach ($errors->all() as $error)
+                      <li>{{$error}}</li>
+                      @endforeach
+                  </ul>
+              </div>
+            </div>
+          @endif
 
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">All Ingredient Stock
+                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">All Ingredient
                 </h1>
             </div>
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
@@ -96,11 +93,10 @@
                         </div>
                     </form>
                 </div>
-                <button id="createProductStockButton"
+                <button id="createIngredientsButton"
                     class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
-                    type="button" data-modal-target="add-ingredient-stock-modal"
-                    data-modal-toggle="add-ingredient-stock-modal">
-                    Add new ingredient stock
+                    type="button" data-modal-target="add-ingredients-modal" data-modal-toggle="add-ingredients-modal">
+                    Add new ingredient
                 </button>
             </div>
         </div>
@@ -122,15 +118,7 @@
                                 </th>
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    In Stock (Unit)
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Out Stock (Unit)
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Date
+                                    Unit
                                 </th>
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
@@ -139,23 +127,19 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                            @foreach ($ingredient_stocks as $stock)
+                            @foreach ($ingredients as $ingredient)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $stock->ingredient->ingredient_name }} </td>
+                                        {{$ingredient->ingredient_name}} </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $stock->ingredient->category }} </td>
+                                        {{$ingredient->category}} </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $stock->in_stock }} ({{ $stock->ingredient->unit }}) </td>
-                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $stock->out_stock }} ({{ $stock->ingredient->unit }}) </td>
-                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $stock->date }} </td>
+                                        {{$ingredient->unit}} </td>
 
                                     <td class="p-4 space-x-2 whitespace-nowrap">
-                                        <button type="button" id="updateIngredientStockButton.{{ $stock->id }}"
-                                            data-modal-target="edit-ingredient-stock-modal.{{ $stock->id }}"
-                                            data-modal-toggle="edit-ingredient-stock-modal.{{ $stock->id }}"
+                                        <button type="button" id="updateIngredientsButton.{{$ingredient->id}}"
+                                            data-modal-target="edit-ingredients-modal.{{$ingredient->id}}"
+                                            data-modal-toggle="edit-ingredients-modal.{{$ingredient->id}}"
                                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -170,7 +154,7 @@
                                         </button>
                                         <!-- Edit Product Drawer -->
                                         <div class="fixed left-0 right-0 z-50 items-center justify-center hidden overflow-x-hidden overflow-y-auto top-4 md:inset-0 h-modal sm:h-full text-start"
-                                            id="edit-ingredient-stock-modal.{{ $stock->id }}">
+                                            id="edit-ingredients-modal.{{$ingredient->id}}">
                                             <div class="relative w-full h-full max-w-2xl px-4 md:h-auto">
                                                 <!-- Modal content -->
                                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
@@ -178,11 +162,11 @@
                                                     <div
                                                         class="flex items-start justify-between p-5 border-b rounded-t dark:border-gray-700">
                                                         <h3 class="text-xl font-semibold dark:text-white">
-                                                            Update ingredient stock
+                                                            Update ingredient
                                                         </h3>
                                                         <button type="button"
                                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
-                                                            data-modal-toggle="edit-ingredient-stock-modal.{{ $stock->id }}">
+                                                            data-modal-toggle="edit-ingredients-modal.{{$ingredient->id}}">
                                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                                 xmlns="http://www.w3.org/2000/svg">
                                                                 <path fill-rule="evenodd"
@@ -193,53 +177,46 @@
                                                     </div>
                                                     <!-- Modal body -->
                                                     <div class="p-6 space-y-6">
-                                                        <form action="{{ route('ingredient_stock.update', $stock->id) }}"
+                                                        <form action="{{ route('ingredients.update', $ingredient->id) }}"
                                                             method="POST">
                                                             @csrf
-                                                            <label for="date-create"
-                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                                                            <div class="relative w-full mb-2">
-                                                                <div
-                                                                    class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400"
-                                                                        aria-hidden="true"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        fill="currentColor" viewBox="0 0 20 20">
-                                                                        <path
-                                                                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                                                    </svg>
-                                                                </div>
-                                                                <input datepicker datepicker-autohide
-                                                                    datepicker-format="yyyy-mm-dd" type="text"
-                                                                    name="date"
-                                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                                    value="{{ $stock->date }}"
-                                                                    placeholder="Select date">
-                                                            </div>
+
                                                             <div class="grid grid-cols-6 gap-3">
+                                                                <div class="col-span-6">
+                                                                    <label for="name"
+                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredient
+                                                                        Name</label>
+                                                                    <input type="text" name="ingredient_name" id="name"
+                                                                        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                                        value="{{$ingredient->ingredient_name}}" placeholder="Masukan Nama Ingredient" required>
+                                                                </div>
+
                                                                 <div class ="col-span-6">
-                                                                    <label for="ingredient-update"
-                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredient</label>
-                                                                    <select id="ingredient-create" name="ingredient_id"
+                                                                    <label for="category-create"
+                                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                                                                    <select id="category-create" name='category'
                                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                                        @foreach ($ingredients as $ingredient)
-                                                                            <option value="{{ $ingredient->id }}"
-                                                                                {{ $ingredient->id == $stock->ingredient_id ? 'selected' : '' }}>
-                                                                                {{ $ingredient->ingredient_name }}
-                                                                                ({{ $ingredient->unit }}) </option>
-                                                                        @endforeach
+                                                                        <option selected="">Select category</option>
+                                                                        <option value="Beans"
+                                                                        {{$ingredient->category=="Beans" ? 'selected' : ''}}>Beans
+                                                                         </option>
+                                                                        <option value="Powder Beverage"{{$ingredient->category=="Powder Beverage" ? 'selected' : ''}}>Powder Beverage
+                                                                        </option>
+                                                                        <option value="Cup Plastic"{{$ingredient->category=="Cup Plastic" ? 'selected' : ''}}>Cup Plastic
+                                                                        </option>
+                                                                        <option value="Garnish"{{$ingredient->category=="Garnish" ? 'selected' : ''}}>Garnish
+                                                                        </option>
+                                                                        <option value="Syrup"{{$ingredient->category=="Syrup" ? 'selected' : ''}}>Syrup</option>
+                                                                        <option value="Area"{{$ingredient->category=="Area" ? 'selected' : ''}}>Area</option>
                                                                     </select>
                                                                 </div>
-
-
                                                                 <div class="col-span-6 sm:col-span-6">
-                                                                    <label for="in-stock"
+                                                                    <label for="unit"
                                                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">In
                                                                         Stock</label>
-                                                                    <input type="number" name="in_stock" id="in-stock"
+                                                                    <input type="text" name="unit" id="unit"
                                                                         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                                                        value="{{ $stock->in_stock }}"
-                                                                        placeholder="Masukan Jumlah Stock" required>
+                                                                        value="{{$ingredient->unit}}" placeholder="Masukan satuan" required>
                                                                 </div>
                                                             </div>
                                                     </div>
@@ -254,9 +231,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="button" id="deleteIngredientStockButton.{{ $stock->id }}"
-                                            data-modal-target="delete-ingredient-stock-modal.{{ $stock->id }}"
-                                            data-modal-toggle="delete-ingredient-stock-modal.{{ $stock->id }}"
+                                        <button type="button" id="deleteIngredientsButton.{{ $ingredient->id }}"
+                                            data-modal-target="delete-ingredients-modal.{{ $ingredient->id }}"
+                                            data-modal-toggle="delete-ingredients-modal.{{ $ingredient->id }}"
+
                                             class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900">
                                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
                                                 xmlns="http://www.w3.org/2000/svg">
@@ -268,7 +246,7 @@
                                         </button>
                                         <!-- Delete Product Drawer -->
                                         <div class="fixed left-0 right-0 z-50 items-center justify-center hidden overflow-x-hidden overflow-y-auto top-4 md:inset-0 h-modal sm:h-full"
-                                            id="delete-ingredient-stock-modal.{{ $stock->id }}">
+                                            id="delete-ingredients-modal.{{ $ingredient->id }}">
                                             <div class="relative w-full h-full max-w-md px-4 md:h-auto">
                                                 <!-- Modal content -->
                                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
@@ -276,7 +254,7 @@
                                                     <div class="flex justify-end p-2">
                                                         <button type="button"
                                                             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
-                                                            data-modal-hide="delete-ingredient-stock-modal.{{ $stock->id }}">
+                                                            data-modal-hide="delete-ingredients-modal.{{ $ingredient->id }}">
                                                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                                                 xmlns="http://www.w3.org/2000/svg">
                                                                 <path fill-rule="evenodd"
@@ -298,20 +276,20 @@
                                                         <h3 class="mt-5 mb-6 text-lg text-gray-500 dark:text-gray-400">Are
                                                             you sure you want to
                                                             delete this ingredient?</h3>
-                                                        <form action="{{ route('ingredient_stock.destroy', $stock->id) }}"
-                                                            method="POST">
-                                                            @csrf
-                                                            @method('delete')
-                                                            <button type="submit"
-                                                                class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2 dark:focus:ring-red-800">
-                                                                Yes, I'm sure
-                                                            </button>
-                                                            <a href="#"
-                                                                class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
-                                                                data-modal-hide="delete-ingredient-stock-modal.{{ $stock->id }}">
-                                                                No, cancel
-                                                            </a>
-                                                        </form>
+                                                            <form action="{{ route('ingredients.destroy', $ingredient->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button type="submit"
+                                                                    class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-base inline-flex items-center px-3 py-2.5 text-center mr-2 dark:focus:ring-red-800">
+                                                                    Yes, I'm sure
+                                                                </button>
+                                                                <a href="#"
+                                                                    class="text-gray-900 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-primary-300 border border-gray-200 font-medium inline-flex items-center rounded-lg text-base px-3 py-2.5 text-center dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                                                                    data-modal-hide="delete-ingredient-stock-modal.{{ $ingredient->id }}">
+                                                                    No, cancel
+                                                                </a>
+                                                            </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -327,22 +305,22 @@
         </div>
     </div>
 
-    {{ $ingredient_stocks->links('pagination::flowbite') }}
+    {{$ingredients->links('pagination::flowbite')}}
 
     <!-- Add User Modal -->
     <div class="fixed left-0 right-0 z-50 items-center justify-center hidden overflow-x-hidden overflow-y-auto top-4 md:inset-0 h-modal sm:h-full"
-        id="add-ingredient-stock-modal">
+        id="add-ingredients-modal">
         <div class="relative w-full h-full max-w-2xl px-4 md:h-auto">
             <!-- Modal content -->
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-800">
                 <!-- Modal header -->
                 <div class="flex items-start justify-between p-5 border-b rounded-t dark:border-gray-700">
                     <h3 class="text-xl font-semibold dark:text-white">
-                        Add new ingredient stock
+                        Add new ingredient
                     </h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-700 dark:hover:text-white"
-                        data-modal-toggle="add-ingredient-stock-modal">
+                        data-modal-toggle="add-ingredients-modal">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -352,45 +330,39 @@
                 </div>
                 <!-- Modal body -->
                 <div class="p-6 space-y-6">
-                    <form action="{{ route('ingredient_stock.store') }}" method="POST">
+                    <form action="{{ route('ingredients.store') }}" method="POST">
                         @csrf
-                        <label for="date-create"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>
-                        <div class="relative w-full mb-3">
-                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path
-                                        d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                </svg>
-                            </div>
-                            <input datepicker datepicker-autohide datepicker-format="yyyy-mm-dd" type="text"
-                                name="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="Select date">
-                        </div>
+
                         <div class="grid grid-cols-6 gap-3">
+                            <div class="col-span-6">
+                                <label for="name"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredient
+                                    Name</label>
+                                <input type="text" name="ingredient_name" id="name"
+                                    class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                    placeholder="Masukan Nama Ingredient" required>
+                            </div>
+
                             <div class ="col-span-6">
-                                <label for="ingredient-create"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredient</label>
-                                <select id="ingredient-create" name="ingredient_id"
+                                <label for="category-create"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
+                                <select id="category-create" name="category"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                    @foreach ($ingredients as $ingredient)
-                                        <option value="{{ $ingredient->id }}">
-                                            {{ $ingredient->ingredient_name }}
-                                            ({{ $ingredient->unit }}) </option>
-                                    @endforeach
+                                    <option value="Beans">Beans</option>
+                                    <option value="Powder Beverage">Powder Beverage</option>
+                                    <option value="Cup Plastic">Cup Plastic</option>
+                                    <option value="Garnish">Garnish</option>
+                                    <option value="Syrup">Syrup</option>
+                                    <option value="Area">Area</option>
                                 </select>
                             </div>
-
-
                             <div class="col-span-3 sm:col-span-6">
-                                <label for="in-stock"
-                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">In
-                                    Stock</label>
-                                <input type="number" name="in_stock" id="in-stock"
+                                <label for="unit"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Unit
+                                    </label>
+                                <input type="text" name="unit" id="unit"
                                     class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                    placeholder="Masukan Jumlah Stock" required>
+                                    placeholder="Masukan satuan" required>
                             </div>
 
                         </div>

@@ -133,7 +133,7 @@
                                         {{ $product->product_name }}
                                     </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $product->category }}
+                                        {{ $product->category->name }}
                                     </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $product->description }}
@@ -195,14 +195,11 @@
                                                                 <div class ="col-span-6">
                                                                     <label for="category-create"
                                                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                                                    <select id="category-create" name="category"
+                                                                    <select id="category-create" name="category_id"
                                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                                                        <option value="Manual Brewing Coffee" {{$product->category=="Manual Brewing Coffee" ? 'selected': ''}}>Manual Brewing Coffee
-                                                                        </option>
-                                                                        <option value="Espresso Based Coffee" {{$product->category=="Espresso Based Coffee" ? 'selected': ''}}>Espresso Based Coffee
-                                                                        </option>
-                                                                        <option value="Milkbase Coffee" {{$product->category=="Milkbase Coffee" ? 'selected': ''}}>Milkbase Coffee</option>
-                                                                        <option value="Milkbase Non Coffee" {{$product->category=="Milkbase Non Coffee" ? 'selected': ''}}>Milkbase Non Coffee</option>
+                                                                        @foreach ($categories as $category )
+                                                                        <option value="{{$category->id}}" {{$category->id==$product->category_id ? 'selected': ''}}>{{$category->name}}</option>
+                                                                        @endforeach
                                                                     </select>
                                                                 </div>
                                                                 <div class="col-span-6">
@@ -340,13 +337,14 @@
                             <div class ="col-span-6">
                                 <label for="category-create"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                <select name="category" id="category-create"
+                                <select name="category_id" id="category-create"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+
                                     <option selected="">Select category</option>
-                                    <option value="Manualan Brewing Coffe">Manual Brewing Coffee</option>
-                                    <option value="Espresso Based Coffee">Espresso Based Coffee</option>
-                                    <option value="Milkbase Coffee">Milkbase Coffee</option>
-                                    <option value="Milkbase Non Coffee">Milkbase Non Coffee</option>
+                                    @foreach ($categories as $category )
+                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                    @endforeach
+
                                 </select>
                             </div>
                             <div class="col-span-6">

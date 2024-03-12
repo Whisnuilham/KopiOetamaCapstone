@@ -11,13 +11,31 @@ class IngredientStockController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $ingredient_stocks=IngredientStock::paginate(10);
+        $ingredients_stocks=IngredientStock::
+        when($request -> has('search'), function ($query) use($request){
+            if ($request->search != '') {
+            $query -> whereHas ('ingredient', function($query2) use($request){
+                $query2 -> where('ingredient_name','like','%'.$request -> search.'%');
+            });
+        }
+        })
+
+        ->when ($request -> has('category'), function ($query) use ($request){
+            if ($request->category != '' && $request->category != 'all') {
+            $query -> whereHas ('ingredient', function($query2) use($request){
+                $query2 -> where ('category', $request -> category);
+            });
+        }
+        })
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
         $ingredients=Ingredient::all();
         return view('pages.ingredient_stock')->with([
-            'ingredient_stocks'=>$ingredient_stocks,
+            'ingredient_stocks'=>$ingredients_stocks,
             'ingredients'=>$ingredients,
         ]);
     }
@@ -38,8 +56,8 @@ class IngredientStockController extends Controller
          //
          $request->validate([
             'ingredient_id'=>'required',
-            'in_stock'=>'required',
-            'date'=>'required',
+            'in_stock'=>'required|numeric|min:1',
+            'date'=>'required|date',
         ]);
 
         IngredientStock::create ([

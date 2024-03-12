@@ -16,7 +16,7 @@ class IngredientStock extends Model
     protected $fillable = [
         'ingredient_id',
         'in_stock',
-        'on_stock',
+        'out_stock',
         'date',
     ];
 

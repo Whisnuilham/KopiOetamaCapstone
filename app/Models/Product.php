@@ -24,10 +24,10 @@ class Product extends Model
     }
     public function ingredients (){
         return $this-> belongsToMany(
-          IngredientStock::class,
+          Ingredient::class,
           'product_ingredient',
           'product_id',
           'ingredient_id',
-        );
+        )->withPivot('quantity')->withTimestamps();
     }
 }

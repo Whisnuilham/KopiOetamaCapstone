@@ -10,10 +10,19 @@ class IngredientsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $ingredients=Ingredient::paginate(10);
+        $ingredients=Ingredient::where('ingredient_name','like','%'.$request -> search.'%')
+        ->when ($request -> has('category'), function ($query) use ($request){
+            if ($request->category != '' && $request->category != 'all') {
+            $query -> where ('category', $request -> category);
+            }
+        })
+
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
         return view('pages.ingredients')->with([
             'ingredients'=>$ingredients
         ]);

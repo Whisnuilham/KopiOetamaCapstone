@@ -20,4 +20,13 @@ class Penjualan extends Model
         'sold',
         'date',
     ];
+
+    protected $casts = [
+
+        'date' => 'date:d-M-Y',
+    ];
+
+    public function product(){
+        return $this->belongsTo(Product::class,'product_id','id');
+    }
 }

@@ -29,7 +29,7 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                                 <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500" aria-current="page">Ingredient
-                                    Stock</span>
+                                    Stock History</span>
                             </div>
                         </li>
                     </ol>
@@ -82,25 +82,42 @@
                     </div>
                 @endif
 
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">All Ingredient Stock
+                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">All Ingredient Stock History
                 </h1>
             </div>
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
-                <div class="flex items-center mb-4 sm:mb-0">
-                    <form class="sm:pr-3" action="#" method="GET">
-                        <label for="products-search" class="sr-only">Search</label>
-                        <div class="relative w-48 mt-1 sm:w-64 xl:w-96">
-                            <input type="text" name="email" id="products-search"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                placeholder="Search for products">
+                <div class="flex flex-col sm:flex-row items-center mb-4 sm:mb-0">
+                    <form class="relative w-full mt-1 sm:w-64 xl:w-96 mr-2">
+                        <input type="hidden" name="category" value="{{request()->category}}">
+                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                </svg>
+                            </div>
+                            <input type="search" name="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Product" value="{{request() -> search }}" />
+                            <button type="submit" class="text-white absolute end-2.5 bottom-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                         </div>
                     </form>
+                    <div class ="w-full mt-1 sm:w-64 ">
+                        <select name="category_id" id="search_category"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 tom-select">
+                            <option value="all" selected>Select Category</option>
+                            <option value="Beans" {{ request()->category == "Beans" ? 'selected' : '' }}>Beans</option>
+                            <option value="Powder Beverage" {{ request()->category == "Powder Beverage" ? 'selected' : '' }}>Powder Beverage</option>
+                            <option value="Cup Plastic" {{ request()->category == "Cup Plastic" ? 'selected' : '' }}>Cup Plastic</option>
+                            <option value="Garnish" {{ request()->category == "Garnish" ? 'selected' : '' }}>Garnish</option>
+                            <option value="Syrup" {{ request()->category == "Syrup" ? 'selected' : '' }}>Syrup</option>
+                            <option value="Area" {{ request()->category == "Area" ? 'selected' : '' }}>Area</option>
+                        </select>
+                    </div>
                 </div>
                 <button id="createProductStockButton"
                     class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                     type="button" data-modal-target="add-ingredient-stock-modal"
                     data-modal-toggle="add-ingredient-stock-modal">
-                    Add new ingredient stock
+                    Add New Ingredient Stock
                 </button>
             </div>
         </div>
@@ -139,7 +156,7 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                            @foreach ($ingredient_stocks as $stock)
+                            @forelse ($ingredient_stocks as $stock)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $stock->ingredient->ingredient_name }} </td>
@@ -318,7 +335,11 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                                @empty
+                                <tr>
+                                    <td class="p-4 dark:text-white" colspan="6">Data tidak ditemukan</td>
+                                </tr>
+                            @endforelse
 
                         </tbody>
                     </table>
@@ -374,7 +395,7 @@
                                 <label for="ingredient-create"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ingredient</label>
                                 <select id="ingredient-create" name="ingredient_id"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 tom-select">
                                     @foreach ($ingredients as $ingredient)
                                         <option value="{{ $ingredient->id }}">
                                             {{ $ingredient->ingredient_name }}
@@ -405,4 +426,57 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+<script>
+ document.addEventListener('DOMContentLoaded', function() {
+    var select = document.getElementById('search_category');
+
+    select.addEventListener('change', function() {
+                var selectedOption = this.options[this.selectedIndex];
+                var category = selectedOption.value;
+
+                // Mendapatkan URL saat ini
+                var currentUrl = window.location.href;
+
+                // Memeriksa apakah sudah ada query string dalam URL
+                var queryStringIndex = currentUrl.indexOf('?');
+                var separator = queryStringIndex !== -1 ? '&' : '?';
+
+                // Membuat objek untuk menyimpan parameter yang sudah ada
+                var params = {};
+
+                // Jika sudah ada query string
+                if (queryStringIndex !== -1) {
+                    // Memecah query string menjadi pasangan nama parameter dan nilainya
+                    var queryString = currentUrl.substr(queryStringIndex + 1);
+                    queryString.split('&').forEach(function(pair) {
+                        var parts = pair.split('=');
+                        params[parts[0]] = parts[1];
+                    });
+                }
+
+                // Memperbarui nilai category_id atau menambahkannya jika belum ada
+                params['category'] = category;
+
+                // Membuat query string baru
+                var newQueryString = Object.keys(params).map(function(key) {
+                    return key + '=' + params[key];
+                }).join('&');
+
+                // Membuat URL baru dengan query string yang diperbarui
+                var newUrl = currentUrl.split('?')[0] + '?' + newQueryString;
+
+                // Memperbarui URL
+                window.location.href = newUrl;
+            });
+
+    var selects = document.querySelectorAll('.tom-select');
+        selects.forEach(function(select) {
+            new TomSelect(select);
+        });
+});
+
+</script>
+
 @endsection

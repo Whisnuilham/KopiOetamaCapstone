@@ -129,6 +129,21 @@
                               </div>
                           </li>
                         @endforelse
+                             <!-- Display total_sold_sum here -->
+                             <li class="py-3 sm:py-4">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center min-w-0">
+                                        <div class="ml-3">
+                                            <p class="font-medium text-gray-900 truncate dark:text-white">
+                                                Total Sold Sum
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="inline-flex items-center text-base font-bold text-gray-900 dark:text-white">
+                                        {{$totalSoldSum}}
+                                    </div>
+                                </div>
+                            </li>
                       </ul>
                   </div>
                 <!-- Card Footer -->

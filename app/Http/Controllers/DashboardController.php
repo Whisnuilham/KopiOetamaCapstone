@@ -154,13 +154,20 @@ class DashboardController extends Controller
 
         // Mengambil data produk yang paling banyak terjual
         $topSellingProducts = [];
+        $totalSoldSum = 0; // Initialize $totalSoldSum
+
         foreach ($salesData as $sale) {
             $topSellingProducts[] = [
                 'product_name' => $sale->product->product_name,
                 'total_sold' => $sale->total_sold,
             ];
+            // Mengakumulasi nilai total_sold dari setiap produk
+            $totalSoldSum += $sale->total_sold;
         }
 
+        // Add the total_sold sum to the array
+        /* $topSellingProducts['total_sold_sum'] = $totalSoldSum;
+ */
         // dd($salesData, $topSellingProducts);
         return view('dashboard')->with([
             'totalproduct' => $totalproduct,
@@ -168,6 +175,7 @@ class DashboardController extends Controller
             'totalingredient' => $totalingredient,
             'chartData' => $chartData,
             'topSellingProducts' => $topSellingProducts,
+            'totalSoldSum' => $totalSoldSum,
             'chartdate' => $chartdate,
             'topdate' => $topdate,
         ]);

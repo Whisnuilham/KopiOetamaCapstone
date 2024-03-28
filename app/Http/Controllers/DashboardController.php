@@ -80,34 +80,32 @@ class DashboardController extends Controller
             ->orderBy('date')
             ->get();
 
+        
+        //Inisialisasi array untuk menyimpan jumlah penjualan setiap hari
         $dailySales = [];
-        $previousSales = [];
 
         foreach ($salesData as $sale) {
             $date = $sale->date->format('d M Y'); // Mengambil tanggal penjualan
-            $dailySales[$date] = $sale->sold; // Menyimpan jumlah penjualan per hari
-        }
-        foreach ($previousSalesData as $previousSale) {
-            $date = $previousSale->date->format('d M Y'); // Mengambil tanggal penjualan
-            $previousSales[$date] = $previousSale->sold; // Menyimpan jumlah penjualan per hari
+            if (!isset($dailySales[$date])) {
+                $dailySales[$date] = 0; // Inisialisasi sales count harian
+            }
+            $dailySales[$date] += $sale->sold; // Menyimpan jumlah penjualan per hari
         }
 
         // Inisialisasi array untuk tanggal dan data penjualan
         $chartData = [
             'dates' => [],
             'sales' => [],
-            'previousSale' => [],
         ];
 
         // Mengisi array dengan tanggal dan data penjualan
-        $currentDate = $startDate;
+        $currentDate = clone $startDate;
         $previousDate = $previousStartDate;
         while ($currentDate <= $endDate) {
             $dateString = $currentDate->format('d M Y');
             $previousDateString = $previousStartDate->format('d M Y');
             $chartData['dates'][] = $dateString; // Menambahkan tanggal ke array
             $chartData['sales'][] = isset($dailySales[$dateString]) ? $dailySales[$dateString] : 0; // Menambahkan jumlah penjualan ke array, jika tidak ada data, maka 0
-            $chartData['previousSale'][] = isset($previousSales[$previousDateString]) ? $previousSales[$previousDateString] : 0; // Menambahkan jumlah penjualan ke array, jika tidak ada data, maka 0
             $currentDate->addDay(); // Melanjutkan ke hari berikutnya
             $previousDate->addDay();
         }

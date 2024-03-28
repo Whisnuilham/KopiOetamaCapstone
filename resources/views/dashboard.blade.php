@@ -8,7 +8,7 @@
                 <div class="flex items-center justify-center mb-4">
                     <div class="flex-shrink-0">
                         <h3 class="flex flex-col items-center justify-center mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-                            Chart Rekap Product Penjualan
+                            Products Sales Recap Chart
                             <span class="text-base">
                                 {{$chartdate}}
                             </span>
@@ -85,7 +85,7 @@
             <div
                 class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800">
                 <h3 class="flex flex-col items-center mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-                    Statistics Penjualan Product
+                    Products Sales Statistics
                     <span class="text-base">
                         {{$topdate}}
                     </span>
@@ -114,7 +114,7 @@
                               </div>
                             </div>
                             <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                              {{$product['total_sold']}}
+                              {{$product['total_sold']}} Cup
                             </div>
                           </div>
                         </li>
@@ -140,7 +140,7 @@
                                         </div>
                                     </div>
                                     <div class="inline-flex items-center text-base font-bold text-gray-900 dark:text-white">
-                                        {{$totalSoldSum}}
+                                        {{$totalSoldSum}} Cup
                                     </div>
                                 </div>
                             </li>
@@ -319,11 +319,6 @@
 				data: @json($chartData['sales']),
 				color: '#1A56DB'
 			},
-			{
-				name: 'Total Sold (previous period)',
-				data: @json($chartData['previousSale']),
-				color: '#FDBA8C'
-			}
 		],
 		markers: {
 			size: 5,

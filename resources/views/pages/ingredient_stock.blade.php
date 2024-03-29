@@ -113,12 +113,14 @@
                         </select>
                     </div>
                 </div>
+                @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                 <button id="createProductStockButton"
                     class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                     type="button" data-modal-target="add-ingredient-stock-modal"
                     data-modal-toggle="add-ingredient-stock-modal">
                     Add New Ingredient Stock
                 </button>
+                @endif
             </div>
         </div>
     </div>
@@ -149,10 +151,12 @@
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Date
                                 </th>
+                                @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Actions
                                 </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -168,7 +172,7 @@
                                         {{ $stock->out_stock }} ({{ $stock->ingredient->unit }}) </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $stock->date }} </td>
-
+                                    @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                     <td class="p-4 space-x-2 whitespace-nowrap">
                                         <button type="button" id="updateIngredientStockButton.{{ $stock->id }}"
                                             data-modal-target="edit-ingredient-stock-modal.{{ $stock->id }}"
@@ -334,6 +338,7 @@
                                             </div>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 @empty
                                 <tr>

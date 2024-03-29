@@ -29,7 +29,7 @@
                                         clip-rule="evenodd"></path>
                                 </svg>
                                 <span class="ml-1 text-gray-400 md:ml-2 dark:text-gray-500"
-                                    aria-current="page">Penjualan</span>
+                                    aria-current="page">Sales</span>
                             </div>
                         </li>
                     </ol>
@@ -81,7 +81,7 @@
                         </div>
                     </div>
                 @endif
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Penjualan
+                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Sales
                 </h1>
             </div>
 
@@ -176,7 +176,7 @@
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $penjualan->product->category->name }}</td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $penjualan->sold }}</td>
+                                        {{ $penjualan->sold }} Cups</td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $penjualan->date->format('d F Y') }}</td>
 

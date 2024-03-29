@@ -100,16 +100,18 @@
                                 </th>
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Jabatan
+                                    Role
                                 </th>
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Status
                                 </th>
+                                @if(auth()->user()->jabatan === 1)
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Actions
                                 </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -147,6 +149,7 @@
                                             @endif
                                         </div>
                                     </td>
+                                    @if(auth()->user()->jabatan === 1)
                                     <td class="p-4 space-x-2 whitespace-nowrap text-center">
                                         <button type="button" id="updateUserButton.{{$user->id}}"
                                             data-modal-target="edit-user-modal.{{$user->id}}"
@@ -257,6 +260,7 @@
                                             </svg>
                                             Delete user
                                         </button>
+                                        
                                         <!-- Delete User Modal -->
                                         <div class="fixed left-0 right-0 z-50 items-center justify-center hidden overflow-x-hidden overflow-y-auto top-4 md:inset-0 h-modal sm:h-full"
                                             id="delete-user-modal.{{ $user->id }}">
@@ -309,6 +313,7 @@
                                             </div>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>

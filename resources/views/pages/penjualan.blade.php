@@ -162,10 +162,12 @@
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Date
                                 </th>
+                                @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Actions
                                 </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -179,7 +181,8 @@
                                         {{ $penjualan->sold }} Cups</td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $penjualan->date->format('d F Y') }}</td>
-
+                                    
+                                    @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                     <td class="p-4 space-x-2 whitespace-nowrap">
                                         <button type="button" id="updatePenjualanButton.{{ $penjualan->id }}"
                                             data-modal-target="edit-penjualan-modal.{{ $penjualan->id }}"
@@ -340,7 +343,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
                                     </td>
+                                    @endif
                                 </tr>
                             @empty
                                 <tr>

@@ -93,7 +93,7 @@
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                 </svg>
                             </div>
-                            <input type="search" name="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Product" value="{{request() -> search }}" />
+                            <input type="search" name="search" id="default-search" class="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Ingredients" value="{{request() -> search }}" />
                             <button type="submit" class="text-white absolute end-2.5 bottom-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                         </div>
                     </form>
@@ -110,11 +110,13 @@
                         </select>
                     </div>
                 </div>
+                @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                 <button id="createIngredientsButton"
                     class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                     type="button" data-modal-target="add-ingredients-modal" data-modal-toggle="add-ingredients-modal">
                     Add new ingredient
                 </button>
+                @endif
             </div>
         </div>
     </div>
@@ -140,11 +142,13 @@
                                 <th scope="col"
                                 class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                 Stock
-                            </th>
+                                </th>
+                                @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Actions
                                 </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -159,6 +163,7 @@
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{$ingredient->sum_of_stock}} </td>
 
+                                    @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                     <td class="p-4 space-x-2 whitespace-nowrap">
                                         <button type="button" id="updateIngredientsButton.{{$ingredient->id}}"
                                             data-modal-target="edit-ingredients-modal.{{$ingredient->id}}"
@@ -317,6 +322,7 @@
                                             </div>
                                         </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 @empty
                                 <tr>

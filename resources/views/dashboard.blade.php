@@ -1,4 +1,6 @@
 @extends('layouts.layout')
+
+
 @section('content')
     <div class="px-4 pt-6">
         <div class="grid gap-4 xl:grid-cols-2 2xl:grid-cols-3">
@@ -135,7 +137,7 @@
                                     <div class="flex items-center min-w-0">
                                         <div class="ml-3">
                                             <p class="font-medium text-gray-900 truncate dark:text-white">
-                                                Total Sold Sum
+                                                Total Sold
                                             </p>
                                         </div>
                                     </div>
@@ -260,6 +262,12 @@
 
  document.addEventListener('DOMContentLoaded', function() {
     let mainChartColors = {}
+    //Menyimpan kategori x-axis secara global
+    let xCategories = @json($chartData['dates']);
+    //Menyimpan series data secara global
+    let seriesData = @json($chartData['total_sales']);
+    // Store product data globally
+    let productData = @json($chartData['products']);
 
     if (document.documentElement.classList.contains('dark')) {
         mainChartColors = {
@@ -303,7 +311,31 @@
 				fontSize: '14px',
 				fontFamily: 'Inter, sans-serif',
 			},
-		},
+		}, 
+        /* tooltip: {
+            custom: function({ series, seriesIndex, dataPointIndex, w}) {
+                // Get the date for the current data point from the global xCategories variable
+                const date = xCategories[dataPointIndex];
+                
+                // Construct the tooltip content
+                let tooltipContent = '<div class="custom-tooltip">';
+                tooltipContent += '<span>Date: ' + date + '</span>'; // Display the date
+                
+                // Display total sales for the current date
+                tooltipContent += '<span>Total Sold: ' + series[seriesIndex][dataPointIndex] + '</span>';
+                
+                // Access product data globally
+                const product = productData[dataPointIndex];
+                // Display product data in tooltip
+                tooltipContent += '<span>Product: Ice Latte</span>';
+                tooltipContent += '<span>Sales: 20</span>';
+                // Add other tooltip content as needed
+                
+                tooltipContent += '</div>';
+                
+                return tooltipContent; // Return the constructed tooltip content
+            }
+        }, */
 		grid: {
 			show: true,
 			borderColor: mainChartColors.borderColor,
@@ -316,9 +348,10 @@
 		series: [
 			{
 				name: 'Total Sold',
-				data: @json($chartData['sales']),
+				data: seriesData,// menggunakan variable seriesData
 				color: '#1A56DB'
 			},
+
 		],
 		markers: {
 			size: 5,
@@ -329,7 +362,7 @@
 			}
 		},
 		xaxis: {
-			categories: @json($chartData['dates']),
+			categories: xCategories, // menggunakan variable xCategories
 			labels: {
 				style: {
 					colors: [mainChartColors.labelColor],

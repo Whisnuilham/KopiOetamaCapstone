@@ -110,11 +110,13 @@
                         </select>
                     </div>
                 </div>
+                @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                 <button id="createProductButton"
                     class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
                     type="button" data-modal-target="add-product-modal" data-modal-toggle="add-product-modal">
                     Add new product
                 </button>
+                @endif
             </div>
         </div>
     </div>
@@ -137,10 +139,12 @@
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Description
                                 </th>
+                                @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Actions
                                 </th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
@@ -156,6 +160,7 @@
                                         {{ $product->description }}
                                     </td>
 
+                                    @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                     <td class="p-4 space-x-2 whitespace-nowrap">
                                         <button type="button" id="updateProductButton.{{ $product->id }}"
                                             data-modal-target="edit-product-modal.{{ $product->id }}"
@@ -462,6 +467,7 @@
                                                 </div>
                                             </div>
                                     </td>
+                                    @endif
                                 </tr>
                                 @empty
                                 <tr>
@@ -738,13 +744,16 @@
         });
 
         function toggleQtyInput(productId, ingredientId) {
-            var qtyDiv = document.getElementById('qtyDiv' + productId + ingredientId);
-            var checkbox = document.getElementById('cbIngredient' + productId + ingredientId);
-            if (checkbox.checked) {
-                qtyDiv.style.display = 'block';
-            } else {
-                qtyDiv.style.display = 'none';
-            }
+        const qtyDiv = document.getElementById(`qtyDiv${productId}${ingredientId}`);
+        const qtyInput = document.getElementById(`qtyingredient${productId}${ingredientId}`);
+        const checkbox = document.getElementById(`cbIngredient${productId}${ingredientId}`);
+
+        if (!checkbox.checked) {
+            qtyDiv.style.display = 'none';
+            qtyInput.value = null;
+        } else {
+            qtyDiv.style.display = 'block';
         }
+    }
     </script>
 @endsection

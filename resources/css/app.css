@@ -5,3 +5,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.custom-tooltip {
+    background-color: rgba(0, 0, 0, 0.8); /* Background color of the tooltip */
+    color: #fff; /* Text color */
+    padding: 10px; /* Padding around the tooltip content */
+    border-radius: 5px; /* Border radius for rounded corners */
+    font-family: 'Arial', sans-serif; /* Font family for the tooltip text */
+    font-size: 14px; /* Font size for the tooltip text */
+  }
+  
+  .custom-tooltip span {
+    display: block; /* Display each line of the tooltip content on a separate line */
+    margin-bottom: 5px; /* Spacing between each line of the tooltip content */
+  }
+  
+  .custom-tooltip span:first-child {
+    font-weight: bold; /* Make the first line of the tooltip content bold (e.g., Date: ) */
+  }
+  
+

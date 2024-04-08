@@ -115,6 +115,7 @@ class ProductController extends Controller
         ]);
 
         $ingredients_qty=$request->qty_ingredients;
+        
         $filterdata=array_filter($ingredients_qty, function($value) {
             return $value !== null;
         });

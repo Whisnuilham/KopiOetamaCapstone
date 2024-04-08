@@ -76,38 +76,70 @@ class DashboardController extends Controller
             ->orderBy('date')
             ->get();
 
-        $previousSalesData = Penjualan::whereBetween('date', [$previousStartDate, $previousEndDate])
-            ->orderBy('date')
-            ->get();
 
         
         //Inisialisasi array untuk menyimpan jumlah penjualan setiap hari
         $dailySales = [];
 
+        // Inisialisasi array untuk menyimpan total penjualan harian
+        $totalSales = [];
+
         foreach ($salesData as $sale) {
             $date = $sale->date->format('d M Y'); // Mengambil tanggal penjualan
+
+            // Inisialisasi sales count harian untuk produk jika belum ada
             if (!isset($dailySales[$date])) {
-                $dailySales[$date] = 0; // Inisialisasi sales count harian
+                $dailySales[$date] = [];
             }
-            $dailySales[$date] += $sale->sold; // Menyimpan jumlah penjualan per hari
+
+            // Menyimpan jumlah penjualan per hari untuk produk tertentu
+            if (!isset($dailySales[$date][$sale->product_name])) {
+                $dailySales[$date][$sale->product_name] = 0;
+            }
+            $dailySales[$date][$sale->product_name] += $sale->sold;
+
+            // Menambahkan jumlah penjualan per hari ke total penjualan harian
+            if (!isset($totalSales[$date])) {
+                $totalSales[$date] = 0;
+            }
+            $totalSales[$date] += $sale->sold;
         }
 
         // Inisialisasi array untuk tanggal dan data penjualan
         $chartData = [
             'dates' => [],
-            'sales' => [],
+            'products' => [], // Changed 'sales' key to 'products' to reflect product-wise sales
+            'total_sales' => [], // Added 'total_sales' key to store total sales across all products for each day
         ];
 
-        // Mengisi array dengan tanggal dan data penjualan
+        // Mengisi array dengan tanggal dan data penjualan total dan setiap produk
         $currentDate = clone $startDate;
-        $previousDate = $previousStartDate;
         while ($currentDate <= $endDate) {
             $dateString = $currentDate->format('d M Y');
-            $previousDateString = $previousStartDate->format('d M Y');
-            $chartData['dates'][] = $dateString; // Menambahkan tanggal ke array
-            $chartData['sales'][] = isset($dailySales[$dateString]) ? $dailySales[$dateString] : 0; // Menambahkan jumlah penjualan ke array, jika tidak ada data, maka 0
+            
+            // Menambahkan tanggal ke array
+            $chartData['dates'][] = $dateString;
+        
+            // Menambahkan jumlah penjualan untuk setiap produk ke array
+            if (isset($dailySales[$dateString])) {
+                foreach ($dailySales[$dateString] as $product => $sales) {
+                    // Jika produk belum ada pada array, inisialisasi dengan 0 penjualan
+                    if (!isset($chartData['products'][$product])) {
+                        $chartData['products'][$product] = [];
+                    }
+                    $chartData['products'][$product][] = $sales; // Menambahkan penjualan produk ke array
+                }
+            } else {
+                // Jika tidak ada penjualan pada tanggal tertentu, inisialisasi semua produk dengan 0 penjualan
+                foreach ($chartData['products'] as $product => $salesArray) {
+                    $chartData['products'][$product][] = 0;
+                }
+            }
+        
+            // Menambahkan total penjualan untuk hari ini ke array
+            $chartData['total_sales'][] = isset($totalSales[$dateString]) ? $totalSales[$dateString] : 0;
+        
             $currentDate->addDay(); // Melanjutkan ke hari berikutnya
-            $previousDate->addDay();
         }
 
         // dd($chartData, $salesData);

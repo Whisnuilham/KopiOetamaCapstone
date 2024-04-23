@@ -73,11 +73,11 @@ class IngredientStockController extends Controller
             'action' => 'Created',
             'table_name' => 'Ingredients Stock',
             'user_id' => auth()->user()->id,
-            'item_id' => $product->id,
-            'item_name'=> $product->product_name,
-            'item_category'=> $product->category_id,
-            'item_description' => $product->description,
-        ]);
+            'item_id' => $ingredient_stock->id,
+            'item_name'=> $ingredient_stock->product_name,
+            'item_category'=> $ingredient_stock->category_id,
+            'item_description' => $ingredient_stock->description,
+        ]); 
 
         return redirect()->back()->with('success','Ingredient berhasil ditambahkan');
     }

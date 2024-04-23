@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -35,10 +36,20 @@ class CategoryController extends Controller
 
         ]);
 
-        Category::create ([
+        $category = Category::create ([
             'name'=>$request->name,
 
         ]);
+
+        ActivityLog::create([
+            'action' => 'Created',
+            'table_name' => 'Product Categories',
+            'user_id' => auth()->user()->id,
+            'item_id' => $category->id,
+            'item_name'=> $category->name
+        ]);
+
+        
 
         return redirect()->back()->with('success','Category berhasil ditambahkan');
     }
@@ -70,9 +81,45 @@ class CategoryController extends Controller
 
         ]);
 
-        Category::find($id)->update ([
-            'name'=>$request->name,
+        // Find the category
+        $category = Category::find($id);
 
+        // Check if the category exists
+        if (!$category) {
+            return redirect()->back()->with('error', 'Category not found');
+        }
+
+        // Get the original attributes before updating
+        $originalAttributes = $category->getOriginal();
+
+        // Update the category
+        $category->update([
+            'name' => $request->name,
+        ]);
+
+        // Initialize an empty string to store the changed attributes with old and new values
+        $changedAttributesString = '';
+
+        // Iterate over the changed attributes
+        foreach ($category->getChanges() as $attribute => $newValue) {
+            // Get the previous value of the attribute
+            $oldValue = $originalAttributes[$attribute];
+
+            // Concatenate the attribute name, old value, and new value to the string
+            $changedAttributesString .= "$attribute: $oldValue => $newValue, ";
+        }
+        
+        // Remove the trailing comma and space
+        $changedAttributesString = rtrim($changedAttributesString, ', ');
+
+        // Log the activity
+        ActivityLog::create([
+            'action' => 'Updated',
+            'table_name' => 'Product Categories',
+            'user_id' => auth()->user()->id,
+            'item_id' => $category->id,
+            'item_name'=> $category->name,
+            'changed_attributes' => $changedAttributesString
         ]);
 
         return redirect()->back()->with('success','Category berhasil diupdate');
@@ -83,8 +130,31 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        Category::find($id)->delete();
-        return redirect()->back()->with('success','Category berhasil di hapus');
+        // Find the category
+        $category = Category::find($id);
+
+        // Check if category exists
+        if (!$category) {
+            return redirect()->back()->with('error', 'Category not found');
+        }
+
+        // Capture the data before deleting the category
+        $itemId = $category->id;
+        $itemName = $category->name;
+
+        // Delete the category
+        $category->delete();
+
+        // Log the activity
+        ActivityLog::create([
+            'action' => 'Deleted',
+            'table_name' => 'Product Categories',
+            'user_id' => auth()->user()->id,
+            'item_id' => $itemId,
+            'item_name'=> $itemName
+
+
+        ]);
+        return redirect()->back()->with('success','Category successfully Deleted');
     }
 }

@@ -13,6 +13,7 @@ class Ingredient extends Model
         'ingredient_name',
         'category',
         'unit',
+        'expired_date'
     ];
     public function products (){
         return $this-> belongsToMany(

@@ -151,6 +151,10 @@
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Date
                                 </th>
+                                <th scope="col"
+                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                    Expired Date
+                                </th>
                                 @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
@@ -172,6 +176,8 @@
                                         {{ $stock->out_stock }} ({{ $stock->ingredient->unit }}) </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $stock->date }} </td>
+                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $stock->expired_date }} </td>
                                     @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                     <td class="p-4 space-x-2 whitespace-nowrap">
                                         <button type="button" id="updateIngredientStockButton.{{ $stock->id }}"
@@ -236,6 +242,26 @@
                                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                                     value="{{ $stock->date }}"
                                                                     placeholder="Select date">
+                                                            </div>
+                                                            <label for="date-create"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expired Date</label>
+                                                            <div class="relative w-full mb-2">
+                                                                <div
+                                                                    class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                                                        aria-hidden="true"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        fill="currentColor" viewBox="0 0 20 20">
+                                                                        <path
+                                                                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                                                    </svg>
+                                                                </div>
+                                                                <input datepicker datepicker-autohide
+                                                                    datepicker-format="yyyy-mm-dd" type="text"
+                                                                    name="expired_date"
+                                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                    value="{{ $stock->expired_date }}"
+                                                                    placeholder="Select expired date (optional)">
                                                             </div>
                                                             <div class="grid grid-cols-6 gap-3">
                                                                 <div class ="col-span-6">
@@ -394,6 +420,25 @@
                                 name="date"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Select date">
+                        </div>
+                        <label for="date-create"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expired Date</label>
+                        <div class="relative w-full mb-2">
+                            <div
+                            class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                            </svg>
+                            </div>
+                            <input datepicker datepicker-autohide
+                                datepicker-format="yyyy-mm-dd" type="text"
+                                name="expired_date"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                value="{{ $stock->expired_date }}"
+                                placeholder="Select expired date (optional)">
                         </div>
                         <div class="grid grid-cols-6 gap-3">
                             <div class ="col-span-6">

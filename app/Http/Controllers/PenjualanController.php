@@ -16,6 +16,7 @@ class PenjualanController extends Controller
     public function index(Request $request)
     {
         $categories=Category::all();
+        $products=Product::all();
         $penjualans=Penjualan::
         when($request -> has('search'), function ($query) use($request){
             if ($request->search != '') {
@@ -42,7 +43,7 @@ class PenjualanController extends Controller
         ->latest()
         ->paginate(10)
         ->withQueryString();
-        $products=Product::all();
+        
         return view('pages.penjualan')->with([
             'penjualans'=>$penjualans,
             'products'=>$products,
@@ -73,37 +74,37 @@ class PenjualanController extends Controller
 
        $product=Product::find($request->product_id);
        if ($product) {
-        // Inisialisasi variabel untuk menyimpan pesan kesalahan
-        $errorMessages = [];
+            // Inisialisasi variabel untuk menyimpan pesan kesalahan
+            $errorMessages = [];
 
-        $outStocks = [];
+            $outStocks = [];
 
-        // Loop melalui setiap bahan pada produk
-        foreach ($product->ingredients as $key => $ingredient) {
-            $quantity = $ingredient->pivot->quantity;
-            $totalQty = $quantity * $request->sold;
-            $outStocks[$key]['totalQty'] = $totalQty;
-            $outStocks[$key]['ingredient_id'] = $ingredient -> id;
-            if($totalQty > $ingredient -> sum_of_stock){
-                $errorMessages[] = "Stok untuk bahan {$ingredient->ingredient_name} tidak mencukupi. Tersedia: {$ingredient -> sum_of_stock}, Dibutuhkan: {$totalQty}";
+            // Loop melalui setiap bahan pada produk
+            foreach ($product->ingredients as $key => $ingredient) {
+                $quantity = $ingredient->pivot->quantity;
+                $totalQty = $quantity * $request->sold;
+                $outStocks[$key]['totalQty'] = $totalQty;
+                $outStocks[$key]['ingredient_id'] = $ingredient -> id;
+                if($totalQty > $ingredient -> sum_of_stock){
+                    $errorMessages[] = "Stok untuk bahan {$ingredient->ingredient_name} tidak mencukupi. Tersedia: {$ingredient -> sum_of_stock}, Dibutuhkan: {$totalQty}";
+                }
             }
-        }
 
-        // Memeriksa apakah ada pesan kesalahan yang disimpan
-        if (!empty($errorMessages)) {
-            // Mengembalikan pengguna ke halaman sebelumnya dengan pesan kesalahan
-            return redirect()->back()->withErrors($errorMessages);
+            // Memeriksa apakah ada pesan kesalahan yang disimpan
+            if (!empty($errorMessages)) {
+                // Mengembalikan pengguna ke halaman sebelumnya dengan pesan kesalahan
+                return redirect()->back()->withErrors($errorMessages);
+            } else {
+                foreach($outStocks as $stock){
+                    IngredientStock::create ([
+                        'ingredient_id' => $stock['ingredient_id'],
+                        'out_stock' => $stock['totalQty'],
+                        'date' => $request -> date,
+                    ]);
+                }
+            }
+
         } else {
-            foreach($outStocks as $stock){
-                IngredientStock::create ([
-                    'ingredient_id' => $stock['ingredient_id'],
-                    'out_stock' => $stock['totalQty'],
-                    'date' => $request -> date,
-                ]);
-            }
-        }
-
-    } else {
         // Mengembalikan pengguna ke halaman sebelumnya dengan pesan kesalahan jika produk tidak ditemukan
         return redirect()->back()->withErrors(['error' => 'Produk tidak ditemukan.']);
     }

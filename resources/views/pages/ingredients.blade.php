@@ -79,8 +79,8 @@
             </div>
           @endif
 
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">All Ingredient
-                </h1>
+            <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">All Ingredient
+            </h1>
             </div>
             <div class="items-center justify-between block sm:flex md:divide-x md:divide-gray-100 dark:divide-gray-700">
                 <div class="flex flex-col sm:flex-row items-center mb-4 sm:mb-0">
@@ -98,9 +98,9 @@
                         </div>
                     </form>
                     <div class ="w-full mt-1 sm:w-64 ">
-                        <select name="category_id" id="search_category"
+                        <select name="category_id" id="search_category" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 tom-select">
-                                    <option value="all" selected>Select Category</option>
+                                    <option value="all" selected>All Category</option>
                                     <option value="Beans" {{ request()->category == "Beans" ? 'selected' : '' }}>Beans</option>
                                     <option value="Powder Beverage" {{ request()->category == "Powder Beverage" ? 'selected' : '' }}>Powder Beverage</option>
                                     <option value="Cup Plastic" {{ request()->category == "Cup Plastic" ? 'selected' : '' }}>Cup Plastic</option>
@@ -414,7 +414,7 @@
 <script>
  document.addEventListener('DOMContentLoaded', function() {
     var select = document.getElementById('search_category');
-
+    
     select.addEventListener('change', function() {
                 var selectedOption = this.options[this.selectedIndex];
                 var category = selectedOption.value;

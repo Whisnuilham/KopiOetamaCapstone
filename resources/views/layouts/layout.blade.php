@@ -4,13 +4,11 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Get started with a free and open-source admin dashboard layout built with Tailwind CSS and Flowbite featuring charts, widgets, CRUD layouts, authentication pages, and more" />
+    <meta name="description" content="Toko Kopi Oetama's system for managing stock and inventory" />
     <meta name="author" content="Themesberg" />
     <meta name="generator" content="Hugo 0.118.2" />
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-
+    <title>{{ config('app.name', 'TKO Stock Management System') }}</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />

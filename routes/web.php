@@ -8,6 +8,7 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ActivityLogController;
 use App\Models\Ingredient;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +69,12 @@ Route::middleware('auth')->group(function () {
             Route::post('store', [CategoryController::class, 'store'])->name('category.store');
             Route::post('/{id}/update', [CategoryController::class, 'update'])->name('category.update');
             Route::delete('/{id}/delete', [CategoryController::class, 'destroy'])->name('category.destroy');
+    });
+    Route::prefix('activity-logs')->group(function () {
+        Route::get('/', [ActivityLogController::class, 'index'])->name('activity_logs');
+            /* Route::post('store', [ActivityLogController::class, 'store'])->name('category.store');
+            Route::post('/{id}/update', [ActivityLogController::class, 'update'])->name('category.update');
+            Route::delete('/{id}/delete', [ActivityLogController::class, 'destroy'])->name('category.destroy'); */
     });
 });
 

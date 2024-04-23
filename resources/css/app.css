@@ -22,5 +22,8 @@
   .custom-tooltip span:first-child {
     font-weight: bold; /* Make the first line of the tooltip content bold (e.g., Date: ) */
   }
+  #search_category {
+    pointer-events: none;
+  }
   
 

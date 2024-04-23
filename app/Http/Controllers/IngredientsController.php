@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 
 class IngredientsController extends Controller
@@ -49,11 +50,21 @@ class IngredientsController extends Controller
 
         ]);
 
-        Ingredient::create ([
+        $ingredient = Ingredient::create ([
             'ingredient_name'=>$request->ingredient_name,
             'category'=>$request->category,
             'unit'=>$request->unit,
 
+        ]);
+
+        ActivityLog::create([
+            'action' => 'Created',
+            'table_name' => 'Ingredients',
+            'user_id' => auth()->user()->id,
+            'item_id' => $ingredient->id,
+            'item_category' => $ingredient->category,
+            'item_unit' => $ingredient->unit,
+            'item_name'=> $ingredient->ingredient_name
         ]);
 
         return redirect()->back()->with('success','Ingredient berhasil ditambahkan');
@@ -80,20 +91,59 @@ class IngredientsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-         //
-         $request->validate([
-            'ingredient_name'=>'required',
-            'category'=>'required',
-            'unit'=>'required',
-
+        // Validate the request data
+        $request->validate([
+            'ingredient_name' => 'required',
+            'category' => 'required',
+            'unit' => 'required',
         ]);
 
-        Ingredient::find($id)->update ([
-            'ingredient_name'=>$request->ingredient_name,
-            'category'=>$request->category,
-            'unit'=>$request->unit,
+        // Find the ingredient by ID
+        $ingredient = Ingredient::find($id);
 
+        // If the ingredient doesn't exist, return with an error
+        if (!$ingredient) {
+            return redirect()->back()->with('error', 'Ingredient not found');
+        }
+
+        // Get the original attributes before updating
+        $originalAttributes = $ingredient->getOriginal();
+
+        // Update the ingredient with the new values
+        $ingredient->update([
+            'ingredient_name' => $request->ingredient_name,
+            'category' => $request->category,
+            'unit' => $request->unit,
         ]);
+
+        
+        // Initialize an empty string to store the changed attributes with old and new values
+        $changedAttributesString = '';
+
+        // Iterate over the changed attributes
+        foreach ($ingredient->getChanges() as $attribute => $newValue) {
+            // Get the previous value of the attribute
+            $oldValue = $originalAttributes[$attribute];
+
+            // Concatenate the attribute name, old value, and new value to the string
+            $changedAttributesString .= "$attribute: $oldValue => $newValue, ";
+        }
+        
+        // Remove the trailing comma and space
+        $changedAttributesString = rtrim($changedAttributesString, ', ');
+
+        // Log the activity
+        ActivityLog::create([
+            'action' => 'Updated',
+            'table_name' => 'Ingredients',
+            'user_id' => auth()->user()->id,
+            'item_id' => $ingredient->id,
+            'item_category' => $ingredient->category,
+            'item_unit' => $ingredient->unit,
+            'item_name' => $ingredient->ingredient_name,
+            'changed_attributes' => $changedAttributesString,
+        ]);
+
 
         return redirect()->back()->with('success','Ingredient berhasil diupdate');
     }
@@ -103,8 +153,35 @@ class IngredientsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        Ingredient::find($id)->delete();
+        // Find the ingredient
+        $ingredient = Ingredient::find($id);
+
+        // Check if category exists
+        if (!$ingredient) {
+            return redirect()->back()->with('error', 'Category not found');
+        }
+
+        // Capture the data before deleting the category
+        $itemId = $ingredient->id;
+        $itemName = $ingredient->ingredient_name;
+        $itemCategory = $ingredient->category;
+        $itemUnit = $ingredient->unit;
+
+        // Delete the category
+        $ingredient->delete();
+
+        // Log the activity
+        ActivityLog::create([
+            'action' => 'Deleted',
+            'table_name' => 'Ingredients',
+            'user_id' => auth()->user()->id,
+            'item_id' => $itemId,
+            'item_category' => $itemCategory,
+            'item_unit' => $itemUnit,
+            'item_name'=> $itemName
+
+
+        ]);
         return redirect()->back()->with('success','Ingredient berhasil di hapus');
     }
 }

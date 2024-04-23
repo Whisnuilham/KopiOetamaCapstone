@@ -304,7 +304,7 @@
                                                                                                         <input
                                                                                                             type="number"
                                                                                                             id="qtyingredient{{ $product->id }}{{ $ingredient->id }}"
-                                                                                                            name="qty_ingredients[]"
+                                                                                                            name="qty_ingredients[{{ $ingredient->id }}]"
                                                                                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-none rounded-s-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 rounded-e-0"
                                                                                                             placeholder='qty'
                                                                                                             value="{{$product->ingredients->contains($ingredient -> id) ? $product->ingredients->where('id', $ingredient->id)->first()->pivot->quantity : '' }}" />
@@ -578,6 +578,7 @@
                                                         id="cbIngredient0{{$ingredient -> id}}"
                                                         value="{{$ingredient -> id}}" class="hidden peer"
                                                         name="ingredients[]"
+                                                        {{$product->ingredients->contains($ingredient -> id) ? 'checked':'' }}
                                                         onchange="toggleQtyInput(0,{{$ingredient -> id}})">
                                                     <label for="cbIngredient0{{$ingredient -> id}}"
                                                         class="inline-flex items-center justify-between w-full p-2 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -590,7 +591,9 @@
                                                                 <div class="flex">
                                                                     <input type="number"
                                                                         id="qtyingredient0{{$ingredient -> id}}"
-                                                                        name="qty_ingredients[]"
+                                                                        name="qty_ingredients[{{$ingredient -> id}}]"
+                                                                        value="0"
+                                                                        min="0"
                                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-none rounded-s-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 rounded-e-0"
                                                                         placeholder='qty' />
                                                                     <span
@@ -747,10 +750,12 @@
         const qtyDiv = document.getElementById(`qtyDiv${productId}${ingredientId}`);
         const qtyInput = document.getElementById(`qtyingredient${productId}${ingredientId}`);
         const checkbox = document.getElementById(`cbIngredient${productId}${ingredientId}`);
+        
 
         if (!checkbox.checked) {
             qtyDiv.style.display = 'none';
             qtyInput.value = null;
+            checkbox.value = []; // Set value of checkbox to empty array
         } else {
             qtyDiv.style.display = 'block';
         }

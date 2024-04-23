@@ -108,6 +108,10 @@
                             <tr>
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                    ID
+                                </th>
+                                <th scope="col"
+                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
                                     Category
                                 </th>
                                 @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
@@ -121,6 +125,9 @@
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                             @foreach ($categories as $category)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $category->id }}
+                                    </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $category->name }}
                                     </td>

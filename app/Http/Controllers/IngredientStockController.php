@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
 use App\Models\IngredientStock;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 
 class IngredientStockController extends Controller
@@ -58,12 +59,24 @@ class IngredientStockController extends Controller
             'ingredient_id'=>'required',
             'in_stock'=>'required|numeric|min:1',
             'date'=>'required|date',
+            'expired_date'=>'date'
         ]);
 
-        IngredientStock::create ([
+        $ingredient_stock = IngredientStock::create ([
             'ingredient_id'=>$request->ingredient_id,
             'in_stock'=>$request->in_stock,
             'date'=>$request->date,
+            'expired_date' => $request->expired_date
+        ]);
+
+        ActivityLog::create([
+            'action' => 'Created',
+            'table_name' => 'Ingredients Stock',
+            'user_id' => auth()->user()->id,
+            'item_id' => $product->id,
+            'item_name'=> $product->product_name,
+            'item_category'=> $product->category_id,
+            'item_description' => $product->description,
         ]);
 
         return redirect()->back()->with('success','Ingredient berhasil ditambahkan');
@@ -95,12 +108,14 @@ class IngredientStockController extends Controller
             'ingredient_id'=>'required',
             'in_stock'=>'required',
             'date'=>'required',
+            'expired_date'=>'date'
         ]);
 
         IngredientStock::find($id)->update ([
             'ingredient_id'=>$request->ingredient_id,
             'in_stock'=>$request->in_stock,
             'date'=>$request->date,
+            'expired_date' => $request->expired_date
         ]);
 
         return redirect()->back()->with('success','Ingredient berhasil diupdate');

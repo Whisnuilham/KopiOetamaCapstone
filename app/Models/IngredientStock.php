@@ -18,6 +18,7 @@ class IngredientStock extends Model
         'in_stock',
         'out_stock',
         'date',
+        'expired_date'
     ];
 
     public function ingredient(){

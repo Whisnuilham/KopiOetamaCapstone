@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Ingredient;
 use App\Models\ActivityLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IngredientsController extends Controller
 {
@@ -24,8 +25,14 @@ class IngredientsController extends Controller
         ->latest()
         ->paginate(10)
         ->withQueryString();
+
+        // Get authenticated user's notifications
+        $user = Auth::user();
+        $notifications = $user->unreadNotifications;
+
         return view('pages.ingredients')->with([
-            'ingredients'=>$ingredients
+            'ingredients'=>$ingredients,
+            'notifications'=>$notifications
         ]);
     }
 

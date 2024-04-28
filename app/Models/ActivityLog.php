@@ -21,7 +21,8 @@ class ActivityLog extends Model
         'item_description',
         'item_in_stock',
         'item_out_stock',
-        'item_date'
+        'item_date',
+        'item_sold'
 
     ];
 

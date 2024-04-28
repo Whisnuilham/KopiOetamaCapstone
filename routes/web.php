@@ -24,10 +24,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-   return redirect()->route('dashboard');
+    return redirect()->route('dashboard');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/test-delete-expired-ingredients', [IngredientStockController::class, 'deleteExpiredIngredients']);
+Route::get('/test-notify-expired-ingredients', [IngredientStockController::class, 'notifyExpiredIngredients']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

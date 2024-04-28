@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class IngredientStock extends Model
 {
-    use HasFactory;
+    use HasFactory,Notifiable;
  /**
      * The attributes that are mass assignable.
      *
@@ -15,6 +16,7 @@ class IngredientStock extends Model
      */
     protected $fillable = [
         'ingredient_id',
+        'sales_id',
         'in_stock',
         'out_stock',
         'date',
@@ -23,5 +25,9 @@ class IngredientStock extends Model
 
     public function ingredient(){
         return $this->belongsTo(Ingredient::class,'ingredient_id','id');
+    }
+
+    public function penjualan(){
+        return $this->belongsTo(Penjualan::class,'sales_id','id');
     }
 }

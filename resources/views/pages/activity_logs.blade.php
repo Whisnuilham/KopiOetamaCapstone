@@ -170,6 +170,18 @@
                                     Item Out Stock
                                 </th>
                                 @endif
+                                @if ($logs->where('table_name', $selectedTableName)->whereNotNull('item_date')->count() > 0)
+                                <th scope="col"
+                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                    Item Date
+                                </th>
+                                @endif
+                                @if ($logs->where('table_name', $selectedTableName)->whereNotNull('item_sold')->count() > 0)
+                                <th scope="col"
+                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                    Item Sold
+                                </th>
+                                @endif
                                 @if ($logs->where('table_name', $selectedTableName)->whereNotNull('changed_attributes')->count() > 0)
                                 <th scope="col"
                                     class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
@@ -183,56 +195,66 @@
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                            @forelse ($logs->where('table_name', $selectedTableName) as $logs)
+                            @forelse ($logs->where('table_name', $selectedTableName) as $log)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $logs->action }} </td>
+                                        {{ $log->action }} </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $logs->user->name }}  </td>
+                                        {{ $log->user->name }}  </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $logs->table_name }}  </td>
+                                        {{ $log->table_name }}  </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $logs->item_id }} </td>
-                                    @if ($logs->where('table_name', $selectedTableName)->whereNotNull('item_foreign_id')->count() > 0)
+                                        {{ $log->item_id }} </td>
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('item_foreign_id')->count() > 0)
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $logs->item_foreign_id ?? 'N/A'}} </td>
+                                        {{ $log->item_foreign_id ?? 'N/A'}} </td>
                                     @endif
-                                    @if ($logs->where('table_name', $selectedTableName)->whereNotNull('item_name')->count() > 0)
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('item_name')->count() > 0)
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $logs->item_name ?? 'N/A' }}
+                                            {{ $log->item_name ?? 'N/A' }}
                                     </td>
                                     @endif
-                                    @if ($logs->where('table_name', $selectedTableName)->whereNotNull('item_category')->count() > 0)
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('item_category')->count() > 0)
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $logs->item_category ?? 'N/A'}}
+                                            {{ $log->item_category ?? 'N/A'}}
                                     </td>
                                     @endif
-                                    @if ($logs->where('table_name', $selectedTableName)->whereNotNull('item_unit')->count() > 0)
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('item_unit')->count() > 0)
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $logs->item_unit ?? 'N/A'}}
+                                            {{ $log->item_unit ?? 'N/A'}}
                                     </td>
                                     @endif
-                                    @if ($logs->where('table_name', $selectedTableName)->whereNotNull('item_description')->count() > 0)
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('item_description')->count() > 0)
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $logs->item_description ?? 'N/A'}}
+                                            {{ $log->item_description ?? 'N/A'}}
                                     </td>
                                     @endif
-                                    @if ($logs->where('table_name', $selectedTableName)->whereNotNull('item_in_stock')->count() > 0)
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('item_in_stock')->count() > 0)
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $logs->item_in_stock ?? 'N/A'}}
+                                            {{ $log->item_in_stock ?? 'N/A'}}
                                     </td>
                                     @endif
-                                    @if ($logs->where('table_name', $selectedTableName)->whereNotNull('item_out_stock')->count() > 0)
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('item_date')->count() > 0)
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            {{ $logs->item_out_stock ?? 'N/A'}}
+                                            {{ $log->item_date ?? 'N/A'}}
                                     </td>
                                     @endif
-                                    @if ($logs->where('table_name', $selectedTableName)->whereNotNull('changed_attributes')->count() > 0)
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('item_sold')->count() > 0)
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $logs->changed_attributes ?? 'N/A'}} </td>
+                                            {{ $log->item_sold ?? 'N/A'}}
+                                    </td>
+                                    @endif
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('item_out_stock')->count() > 0)
+                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                            {{ $log->item_out_stock ?? 'N/A'}}
+                                    </td>
+                                    @endif
+                                    @if ($log->where('table_name', $selectedTableName)->whereNotNull('changed_attributes')->count() > 0)
+                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $log->changed_attributes ?? 'N/A'}} </td>
                                     @endif
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $logs->created_at }} </td>
+                                        {{ $log->created_at }} </td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -249,9 +271,13 @@
                     <hr class="border-t border-gray-200 dark:border-gray-700 my-4">
                     @endif
                 </div>
+                
             </div>
         </div>
     </div>
+    
+
+    
 
     
 

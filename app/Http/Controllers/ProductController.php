@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ActivityLog;
 use Illuminate\Contracts\Support\ValidatedData;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -32,11 +33,17 @@ class ProductController extends Controller
         $ingredients=Ingredient::all();
         $ingredientsCategory=Ingredient::pluck('category')->unique();
         // dd($products->first()->ingredients);
+
+        // Get authenticated user's notifications
+        $user = Auth::user();
+        $notifications = $user->unreadNotifications;
+
         return view('pages.product')->with([
             'products'=>$products,
             'categories'=>$categories,
             'ingredients'=>$ingredients,
             'ingredientsCategory'=>$ingredientsCategory,
+            'notifications'=>$notifications
 
         ]);
     }

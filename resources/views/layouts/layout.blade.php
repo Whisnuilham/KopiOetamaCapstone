@@ -47,7 +47,7 @@
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-800">
-    <x-header />
+    <x-header :notifications="$notifications"/>
 
     <div class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900">
         <x-sidebar />

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\ActivityLog;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -11,8 +12,14 @@ class CategoryController extends Controller
     public function index()
     {
         $categories=Category::paginate(10);
+
+        // Get authenticated user's notifications
+        $user = Auth::user();
+        $notifications = $user->unreadNotifications;
+
         return view('pages.category')->with([
-            'categories'=>$categories
+            'categories'=>$categories,
+            'notifications'=>$notifications
 
         ]);
     }

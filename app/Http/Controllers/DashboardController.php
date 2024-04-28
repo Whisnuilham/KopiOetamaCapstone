@@ -7,6 +7,7 @@ use App\Models\Penjualan;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -199,6 +200,12 @@ class DashboardController extends Controller
         /* $topSellingProducts['total_sold_sum'] = $totalSoldSum;
  */
         // dd($salesData, $topSellingProducts);
+
+        // Get authenticated user's notifications
+        $user = Auth::user();
+        $notifications = $user->unreadNotifications;
+        //dd ($notifications);
+
         return view('dashboard')->with([
             'totalproduct' => $totalproduct,
             'totaluser' => $totaluser,
@@ -208,6 +215,7 @@ class DashboardController extends Controller
             'totalSoldSum' => $totalSoldSum,
             'chartdate' => $chartdate,
             'topdate' => $topdate,
+            'notifications' => $notifications
         ]);
     }
 

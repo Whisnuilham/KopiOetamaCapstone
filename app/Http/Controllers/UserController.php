@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use app\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -14,8 +15,14 @@ class UserController extends Controller
     public function index()
     {
         $users=User::paginate(10);
+
+        // Get authenticated user's notifications
+        $user = Auth::user();
+        $notifications = $user->unreadNotifications;
+
         return view('pages.users')->with([
-            'users'=>$users
+            'users'=>$users,
+            'notifications'=>$notifications
         ]);
     }
 

@@ -224,7 +224,7 @@
                                                     </div>
                                                     <!-- Modal body -->
                                                     <div class="p-6 space-y-6">
-                                                        <form action="{{ route('penjualan.store') }}" method="POST">
+                                                        <form action="{{ route('penjualan.update', $penjualan->id ) }}" method="POST">
                                                             @csrf
                                                             <label for="date-create"
                                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date</label>

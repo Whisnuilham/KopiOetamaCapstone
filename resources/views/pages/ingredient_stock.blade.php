@@ -100,19 +100,87 @@
                             <button type="submit" class="text-white absolute end-2.5 bottom-1 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-1 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                         </div>
                     </form>
-                    <div class ="w-full mt-1 sm:w-64 ">
-                        <select name="category_id" id="search_category"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 tom-select">
-                            <option value="all" selected>Select Category</option>
-                            <option value="Beans" {{ request()->category == "Beans" ? 'selected' : '' }}>Beans</option>
-                            <option value="Powder Beverage" {{ request()->category == "Powder Beverage" ? 'selected' : '' }}>Powder Beverage</option>
-                            <option value="Cup Plastic" {{ request()->category == "Cup Plastic" ? 'selected' : '' }}>Cup Plastic</option>
-                            <option value="Garnish" {{ request()->category == "Garnish" ? 'selected' : '' }}>Garnish</option>
-                            <option value="Syrup" {{ request()->category == "Syrup" ? 'selected' : '' }}>Syrup</option>
-                            <option value="Area" {{ request()->category == "Area" ? 'selected' : '' }}>Area</option>
-                        </select>
-                    </div>
+                    <div class="w-full mt-1 mr-2 sm:w-64">
+    <form id="categoryForm" method="GET" action="{{ request()->url() }}">
+        <select name="category_id" id="modal_search_category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 tom-select">
+            <option value="all" selected>Select Category</option>
+            <option value="Beans and Tea" {{ request()->category_id == "Beans and Tea" ? 'selected' : '' }}>Beans and Tea</option>
+            <option value="Water and Ice" {{ request()->category_id == "Water and Ice" ? 'selected' : '' }}>Water and Ice</option>
+            <option value="Powder Beverage" {{ request()->category_id == "Powder Beverage" ? 'selected' : '' }}>Powder Beverage</option>
+            <option value="Garnish" {{ request()->category_id == "Garnish" ? 'selected' : '' }}>Garnish</option>
+            <option value="Jam" {{ request()->category_id == "Jam" ? 'selected' : '' }}>Jam</option>
+            <option value="Juice" {{ request()->category_id == "Juice" ? 'selected' : '' }}>Juice</option>
+            <option value="Syrup" {{ request()->category_id == "Syrup" ? 'selected' : '' }}>Syrup</option>
+            <option value="Cup Plastic" {{ request()->category_id == "Cup Plastic" ? 'selected' : '' }}>Cup Plastic</option>
+            <option value="Area" {{ request()->category_id == "Area" ? 'selected' : '' }}>Area</option>
+        </select>
+    </form>
+</div>
+                    <div class="flex flex-col sm:flex-row items-center mb-4 sm:mb-0">
+    <!-- Button to open the modal -->
+    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="toggleModal('filterModal')">
+    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
+</svg>
+    </button>
+</div>
+
+<!-- Modal -->
+<div id="filterModal" class="fixed inset-0 z-50 hidden overflow-y-auto flex items-center justify-center px-4">
+    <div class="relative bg-white dark:bg-gray-800 rounded-lg max-w-md w-full p-6">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Filter Options</h2>
+        <form id="filterForm" method="GET" action="{{ request()->url() }}">
+            <!-- Category Filter -->
+            
+
+            <!-- Stock Status Filter -->
+            @php
+                $inStockChecked = request()->has('stock_status') && in_array('in_stock', request()->stock_status);
+                $outStockChecked = request()->has('stock_status') && in_array('out_stock', request()->stock_status);
+            @endphp
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Stock Status</label>
+                <div class="flex items-center">
+                    <input id="inStock" type="checkbox" name="stock_status[]" value="in_stock" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800 dark:border-gray-600 dark:bg-gray-700" {{ $inStockChecked ? 'checked' : '' }}>
+                    <label for="inStock" class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">In Stock</label>
                 </div>
+                <div class="flex items-center">
+                    <input id="outStock" type="checkbox" name="stock_status[]" value="out_stock" class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:focus:ring-offset-gray-800 dark:border-gray-600 dark:bg-gray-700">
+                    <label for="outStock" class="ml-2 block text-sm font-medium text-gray-900 dark:text-gray-300">Out of Stock</label>
+                </div>
+            </div>
+
+            <!-- Date Range Filter -->
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-900 dark:text-white mb-2">Select Date Range</label>
+                <div class="flex items-center space-x-4">
+                    <input id="startDate" name="start_date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ request()->start_date }}">
+                    <span class="text-gray-500 dark:text-gray-400">to</span>
+                    <input id="endDate" name="end_date" type="date" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{ request()->end_date }}">
+                </div>
+            </div>
+
+            <!-- Modal Actions -->
+            <div class="flex justify-end">
+                <button type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm px-4 py-2 mr-2 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-600" onclick="toggleModal('filterModal')">Cancel</button>
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Apply Filters</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+                </div>
+                <button id="createPenjualanButton"
+    class="ms-3 text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center"
+    type="button" data-modal-target="downloadModal" data-modal-toggle="downloadModal">
+    <svg class="w-4 h-4 text-gray-800 dark:text-white mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 18">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17V1m0 0 4 4M8 1L4 5"/>
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2 12v3a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3"/>
+    </svg>
+    Export Excel
+</button>
+                </button>
                 @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                 <button id="createProductStockButton"
                     class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
@@ -129,40 +197,88 @@
             <div class="inline-block min-w-full align-middle">
                 <div class="overflow-hidden shadow">
                     <table class="w-full text-center divide-y divide-gray-200 dark:divide-gray-600">
-                        <thead class="bg-gray-100 dark:bg-gray-700">
-                            <tr>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
+                        <tr>
+                            <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                <a href="{{ route('ingredient_stock', ['sort' => 'ingredient_name', 'direction' => $sortColumn == 'ingredient_name' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
                                     Ingredient Name
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                    @if ($sortColumn == 'ingredient_name')
+                                        @if ($sortDirection == 'asc')
+                                            <i class="fas fa-arrow-up"></i>
+                                        @else
+                                            <i class="fas fa-arrow-down"></i>
+                                        @endif
+                                    @endif
+                                </a>
+                            </th>
+                            <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                <a href="{{ route('ingredient_stock', ['sort' => 'category', 'direction' => $sortColumn == 'category' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
                                     Category
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    In Stock (Unit)
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Out Stock (Unit)
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                    @if ($sortColumn == 'category')
+                                        @if ($sortDirection == 'asc')
+                                            <i class="fas fa-arrow-up"></i>
+                                        @else
+                                            <i class="fas fa-arrow-down"></i>
+                                        @endif
+                                    @endif
+                                </a>
+                            </th>
+                            <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 in-stock-header" style="{{ !$inStockChecked ? 'display: none;' : '' }}">
+    <a href="{{ route('ingredient_stock', ['sort' => 'in_stock', 'direction' => $sortColumn == 'in_stock' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
+        In Stock (Unit)
+        @if ($sortColumn == 'in_stock')
+            @if ($sortDirection == 'asc')
+                <i class="fas fa-arrow-up"></i>
+            @else
+                <i class="fas fa-arrow-down"></i>
+            @endif
+        @endif
+    </a>
+</th>
+<th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400 out-stock-header" style="{{ !$outStockChecked ? 'display: none;' : '' }}">
+    <a href="{{ route('ingredient_stock', ['sort' => 'out_stock', 'direction' => $sortColumn == 'out_stock' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
+        Out Stock (Unit)
+        @if ($sortColumn == 'out_stock')
+            @if ($sortDirection == 'asc')
+                <i class="fas fa-arrow-up"></i>
+            @else
+                <i class="fas fa-arrow-down"></i>
+            @endif
+        @endif
+    </a>
+</th>
+                            <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                <a href="{{ route('ingredient_stock', ['sort' => 'date', 'direction' => $sortColumn == 'date' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
                                     Date
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                    @if ($sortColumn == 'date')
+                                        @if ($sortDirection == 'asc')
+                                            <i class="fas fa-arrow-up"></i>
+                                        @else
+                                            <i class="fas fa-arrow-down"></i>
+                                        @endif
+                                    @endif
+                                </a>
+                            </th>
+                            <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                <a href="{{ route('ingredient_stock', ['sort' => 'expired_date', 'direction' => $sortColumn == 'expired_date' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
                                     Expired Date
-                                </th>
-                                @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Actions
-                                </th>
-                                @endif
-                            </tr>
-                        </thead>
+                                    @if ($sortColumn == 'expired_date')
+                                        @if ($sortDirection == 'asc')
+                                            <i class="fas fa-arrow-up"></i>
+                                        @else
+                                            <i class="fas fa-arrow-down"></i>
+                                        @endif
+                                    @endif
+                                </a>
+                            </th>
+                            @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
+                            <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                                Actions
+                            </th>
+                            @endif
+                        </tr>
+                    </thead>
+
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                             @forelse ($ingredient_stocks as $stock)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -170,14 +286,29 @@
                                         {{ $stock->ingredient->ingredient_name }} </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $stock->ingredient->category }} </td>
-                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $stock->in_stock }} ({{ $stock->ingredient->unit }}) </td>
-                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $stock->out_stock }} ({{ $stock->ingredient->unit }}) </td>
+                                        <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white in-stock-column" style="{{ !$inStockChecked ? 'display: none;' : '' }}">
+    @if($stock->in_stock && $stock->in_stock > 0)
+        {{ $stock->in_stock }} ({{ $stock->ingredient->unit }})
+    @else
+        -
+    @endif
+</td>
+<td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white out-stock-column" style="{{ !$outStockChecked ? 'display: none;' : '' }}">
+    @if($stock->out_stock && $stock->out_stock > 0)
+        {{ $stock->out_stock }} ({{ $stock->ingredient->unit }})
+    @else
+        -
+    @endif
+</td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{ $stock->date }} </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                        {{ $stock->expired_date }} </td>
+                                    @if($stock->expired_date && $stock->expired_date > 0)
+                                        {{ $stock->expired_date }}
+                                    @else
+                                        -
+                                    @endif
+                                        </td>
                                     @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                     <td class="p-4 space-x-2 whitespace-nowrap">
                                         <button type="button" id="updateIngredientStockButton.{{ $stock->id }}"
@@ -475,9 +606,72 @@
             </div>
         </div>
     </div>
+
+    
 @endsection
 @section('script')
 <script>
+     document.getElementById('modal_search_category').addEventListener('change', function() {
+        document.getElementById('categoryForm').submit();
+    });
+   function toggleModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.toggle('hidden');
+    }
+
+    // Ensure checkboxes are checked when modal is opened
+    document.addEventListener('DOMContentLoaded', function() {
+        const inStockCheckbox = document.getElementById('inStock');
+        const outStockCheckbox = document.getElementById('outStock');
+
+        inStockCheckbox.addEventListener('change', function() {
+            const inStockColumn = document.querySelectorAll('.in-stock-column');
+            inStockColumn.forEach(column => {
+                column.style.display = inStockCheckbox.checked ? 'table-cell' : 'none';
+            });
+        });
+
+        outStockCheckbox.addEventListener('change', function() {
+            const outStockColumn = document.querySelectorAll('.out-stock-column');
+            outStockColumn.forEach(column => {
+                column.style.display = outStockCheckbox.checked ? 'table-cell' : 'none';
+            });
+        });
+    });
+
+   function toggleColumns() {
+        const inStockChecked = document.getElementById('inStock').checked;
+        const outStockChecked = document.getElementById('outStock').checked;
+
+        // Update th (header) and td (data) visibility based on checkbox state
+        const inStockHeader = document.querySelector('.in-stock-header');
+        const outStockHeader = document.querySelector('.out-stock-header');
+        const inStockColumn = document.querySelectorAll('.in-stock-column');
+        const outStockColumn = document.querySelectorAll('.out-stock-column');
+
+        inStockHeader.style.display = inStockChecked ? 'table-cell' : 'none';
+        outStockHeader.style.display = outStockChecked ? 'table-cell' : 'none';
+
+        inStockColumn.forEach(td => {
+            td.style.display = inStockChecked ? 'table-cell' : 'none';
+        });
+
+        outStockColumn.forEach(td => {
+            td.style.display = outStockChecked ? 'table-cell' : 'none';
+        });
+    }
+
+    // Function to show/hide filter modal
+    function toggleModal(modalId) {
+        const modal = document.getElementById(modalId);
+        modal.classList.toggle('hidden');
+    }
+
+    // Add event listeners to checkboxes
+    document.getElementById('inStock').addEventListener('change', toggleColumns);
+    document.getElementById('outStock').addEventListener('change', toggleColumns);
+
+
  document.addEventListener('DOMContentLoaded', function() {
     var select = document.getElementById('search_category');
 
@@ -519,11 +713,53 @@
                 // Memperbarui URL
                 window.location.href = newUrl;
             });
+            
+            var dateInput = document.querySelector('#searchDate');
 
-    var selects = document.querySelectorAll('.tom-select');
-        selects.forEach(function(select) {
-            new TomSelect(select);
-        });
+                dateInput.addEventListener('changeDate', function() {
+                    var selectedDate = this.value;
+
+                    // Mendapatkan URL saat ini
+                    var currentUrl = window.location.href;
+
+                    // Memeriksa apakah sudah ada query string dalam URL
+                    var queryStringIndex = currentUrl.indexOf('?');
+                    var separator = queryStringIndex !== -1 ? '&' : '?';
+
+                    // Membuat objek untuk menyimpan parameter yang sudah ada
+                    var params = {};
+
+                    // Jika sudah ada query string
+                    if (queryStringIndex !== -1) {
+                        // Memecah query string menjadi pasangan nama parameter dan nilainya
+                        var queryString = currentUrl.substr(queryStringIndex + 1);
+                        queryString.split('&').forEach(function(pair) {
+                            var parts = pair.split('=');
+                            params[parts[0]] = parts[1];
+                        });
+                    }
+
+                    // Memperbarui nilai date atau menambahkannya jika belum ada
+                    params['date'] = selectedDate;
+
+                    // Membuat query string baru
+                    var newQueryString = Object.keys(params).map(function(key) {
+                        return key + '=' + params[key];
+                    }).join('&');
+
+                    // Membuat URL baru dengan query string yang diperbarui
+                    var newUrl = currentUrl.split('?')[0] + '?' + newQueryString;
+
+                    // Memperbarui URL
+                    window.location.href = newUrl;
+                });
+
+
+                var selects = document.querySelectorAll('.tom-select');
+                selects.forEach(function(select) {
+                    new TomSelect(select);
+                });
+                    
 });
 
 </script>

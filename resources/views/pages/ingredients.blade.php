@@ -101,11 +101,14 @@
                         <select name="category_id" id="search_category" readonly
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 tom-select">
                                     <option value="all" selected>All Category</option>
-                                    <option value="Beans" {{ request()->category == "Beans" ? 'selected' : '' }}>Beans</option>
+                                    <option value="Beans and Tea" {{ request()->category == "Beans and Tea" ? 'selected' : '' }}>Beans and Tea</option>
+                                    <option value="Water and Ice" {{ request()->category == "Water and Ice" ? 'selected' : '' }}>Water and Ice</option>
                                     <option value="Powder Beverage" {{ request()->category == "Powder Beverage" ? 'selected' : '' }}>Powder Beverage</option>
-                                    <option value="Cup Plastic" {{ request()->category == "Cup Plastic" ? 'selected' : '' }}>Cup Plastic</option>
                                     <option value="Garnish" {{ request()->category == "Garnish" ? 'selected' : '' }}>Garnish</option>
+                                    <option value="Jam" {{ request()->category == "Jam" ? 'selected' : '' }}>Jam</option>
+                                    <option value="Juice" {{ request()->category == "Juice" ? 'selected' : '' }}>Juice</option>
                                     <option value="Syrup" {{ request()->category == "Syrup" ? 'selected' : '' }}>Syrup</option>
+                                    <option value="Cup Plastic" {{ request()->category == "Cup Plastic" ? 'selected' : '' }}>Cup Plastic</option>
                                     <option value="Area" {{ request()->category == "Area" ? 'selected' : '' }}>Area</option>
                         </select>
                     </div>
@@ -125,32 +128,77 @@
             <div class="inline-block min-w-full align-middle">
                 <div class="overflow-hidden shadow">
                     <table class="w-full text-center divide-y divide-gray-200 dark:divide-gray-600">
-                        <thead class="bg-gray-100 dark:bg-gray-700">
-                            <tr>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Ingredient Name
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Category
-                                </th>
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Unit
-                                </th>
-                                <th scope="col"
-                                class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                Stock
-                                </th>
-                                @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
-                                <th scope="col"
-                                    class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
-                                    Actions
-                                </th>
-                                @endif
-                            </tr>
-                        </thead>
+                    <thead class="bg-gray-100 dark:bg-gray-700">
+                    <thead class="bg-gray-100 dark:bg-gray-700">
+    <tr>
+        <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+            <a href="{{ route('ingredients', ['sort' => 'ingredient_name', 'direction' => $sortColumn == 'ingredient_name' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
+                Ingredient Name
+                @if ($sortColumn == 'ingredient_name')
+                    @if ($sortDirection == 'asc')
+                        <i class="fas fa-arrow-up"></i>
+                    @else
+                        <i class="fas fa-arrow-down"></i>
+                    @endif
+                @endif
+            </a>
+        </th>
+        <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+            <a href="{{ route('ingredients', ['sort' => 'category', 'direction' => $sortColumn == 'category' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
+                Category
+                @if ($sortColumn == 'category')
+                    @if ($sortDirection == 'asc')
+                        <i class="fas fa-arrow-up"></i>
+                    @else
+                        <i class="fas fa-arrow-down"></i>
+                    @endif
+                @endif
+            </a>
+        </th>
+        <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+            <a href="{{ route('ingredients', ['sort' => 'unit', 'direction' => $sortColumn == 'unit' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
+                Unit
+                @if ($sortColumn == 'unit')
+                    @if ($sortDirection == 'asc')
+                        <i class="fas fa-arrow-up"></i>
+                    @else
+                        <i class="fas fa-arrow-down"></i>
+                    @endif
+                @endif
+            </a>
+        </th>
+        <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+            <a href="{{ route('ingredients', ['sort' => 'sum_of_stock', 'direction' => $sortColumn == 'sum_of_stock' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
+                Sum of Stock
+                @if ($sortColumn == 'sum_of_stock')
+                    @if ($sortDirection == 'asc')
+                        <i class="fas fa-arrow-up"></i>
+                    @else
+                        <i class="fas fa-arrow-down"></i>
+                    @endif
+                @endif
+            </a>
+        </th>
+        <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+            <a href="{{ route('ingredients', ['sort' => 'sum_of_stock', 'direction' => $sortColumn == 'sum_of_stock' && $sortDirection == 'asc' ? 'desc' : 'asc']) }}">
+                Minimum Stocks
+                @if ($sortColumn == 'sum_of_stock')
+                    @if ($sortDirection == 'asc')
+                        <i class="fas fa-arrow-up"></i>
+                    @else
+                        <i class="fas fa-arrow-down"></i>
+                    @endif
+                @endif
+            </a>
+        </th>
+        @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
+            <th scope="col" class="p-4 text-xs font-medium text-center text-gray-500 uppercase dark:text-gray-400">
+                Actions
+            </th>
+        @endif
+    </tr>
+</thead>
+
                         <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
                             @forelse ($ingredients as $ingredient)
                                 <tr class="hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -162,6 +210,8 @@
                                         {{$ingredient->unit}} </td>
                                     <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                         {{$ingredient->sum_of_stock}} </td>
+                                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        250 {{$ingredient->unit}}</td>
 
                                     @if(auth()->user()->jabatan === 1 || auth()->user()->jabatan === 2)
                                     <td class="p-4 space-x-2 whitespace-nowrap">
@@ -224,16 +274,20 @@
                                                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                                                                     <select id="category-create" name='category'
                                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 tom-select">
-                                                                        <option value="Beans"
-                                                                        {{$ingredient->category=="Beans" ? 'selected' : ''}}>Beans
+                                                                        <option value="Beans and Tea"
+                                                                        {{$ingredient->category=="Beans and Tea" ? 'selected' : ''}}>Beans
                                                                          </option>
-                                                                        <option value="Powder Beverage"{{$ingredient->category=="Powder Beverage" ? 'selected' : ''}}>Powder Beverage
+                                                                         <option value="Water and Ice"{{$ingredient->category=="Water and Ice" ? 'selected' : ''}}>Water and Ice
                                                                         </option>
-                                                                        <option value="Cup Plastic"{{$ingredient->category=="Cup Plastic" ? 'selected' : ''}}>Cup Plastic
+                                                                        <option value="Powder Beverage"{{$ingredient->category=="Powder Beverage" ? 'selected' : ''}}>Powder Beverage
                                                                         </option>
                                                                         <option value="Garnish"{{$ingredient->category=="Garnish" ? 'selected' : ''}}>Garnish
                                                                         </option>
+                                                                        <option value="Jam"{{$ingredient->category=="Jam" ? 'selected' : ''}}>Jam</option>
+                                                                        <option value="Juice"{{$ingredient->category=="Juice" ? 'selected' : ''}}>Juice</option>
                                                                         <option value="Syrup"{{$ingredient->category=="Syrup" ? 'selected' : ''}}>Syrup</option>
+                                                                        <option value="Cup Plastic"{{$ingredient->category=="Cup Plastic" ? 'selected' : ''}}>Cup Plastic
+                                                                        </option>
                                                                         <option value="Area"{{$ingredient->category=="Area" ? 'selected' : ''}}>Area</option>
                                                                     </select>
                                                                 </div>
@@ -380,11 +434,14 @@
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
                                 <select id="category-create" name="category"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 tom-select">
-                                    <option value="Beans">Beans</option>
+                                    <option value="Beans and Tea">Beans and Tea</option>
+                                    <option value="Water and Ice">Water and Ice</option>
                                     <option value="Powder Beverage">Powder Beverage</option>
-                                    <option value="Cup Plastic">Cup Plastic</option>
                                     <option value="Garnish">Garnish</option>
+                                    <option value="Jam">Jam</option>
+                                    <option value="Juice">Juice</option>
                                     <option value="Syrup">Syrup</option>
+                                    <option value="Cup Plastic">Cup Plastic</option>
                                     <option value="Area">Area</option>
                                 </select>
                             </div>

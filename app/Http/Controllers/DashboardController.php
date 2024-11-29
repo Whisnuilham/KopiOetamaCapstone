@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Ingredient;
 use App\Models\Penjualan;
 use App\Models\Product;
+use App\Models\IngredientStock;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -18,7 +20,10 @@ class DashboardController extends Controller
     public function index(Request $request)
     {
         $totalproduct = Product::count();
-        $totaluser = User::count();
+        $today = Carbon::now();
+        $nextWeek = Carbon::now()->addWeek();
+
+        $totalExpiredSoon = IngredientStock::whereBetween('expired_date', [$today, $nextWeek])->count();
         $totalingredient = Ingredient::count();
         $filterChart = $request->filterChart;
         $filterTop = $request->filterTop;
@@ -106,75 +111,96 @@ class DashboardController extends Controller
             $totalSales[$date] += $sale->sold;
         }
 
+        $last7Days = Carbon::now()->subDays(7);
+
+        $products = Product::with(['penjualan' => function ($query) use ($last7Days) {
+            $query->where('created_at', '>=', $last7Days);
+        }])->get();
+    
+        $totalProducts = $products->sum(function($product) {
+            return $product->penjualan->sum('quantity');
+        });
         // Inisialisasi array untuk tanggal dan data penjualan
         $chartData = [
-            'dates' => [],
-            'products' => [], // Changed 'sales' key to 'products' to reflect product-wise sales
-            'total_sales' => [], // Added 'total_sales' key to store total sales across all products for each day
+            'dates' => ['2024-06-01', '2024-06-02', '2024-06-03', '2024-06-04', '2024-06-05'],
+            'total_sales' => ['10 Cup', '15 Cup', '20 Cup', '25 Cup', '30 Cup'],
+            'additional_series_1' => ['5 Cup', '10 Cup', '15 Cup', '20 Cup', '25 Cup'],
+            'additional_series_2' => ['20 Cup', '18 Cup', '25 Cup', '30 Cup', '40 Cup'],
+            'additional_series_3' => ['8 Cup', '12 Cup', '14 Cup', '22 Cup', '35 Cup'],
+            'additional_series_4' => ['17 Cup', '25 Cup', '23 Cup', '19 Cup', '28 Cup'],
         ];
+        
+        // $chartData = [
+        //     'dates' => [],
+        //     'products' => [], // Changed 'sales' key to 'products' to reflect product-wise sales
+        //     'total_sales' => [], // Added 'total_sales' key to store total sales across all products for each day
+        // ];
 
-        // Mengisi array dengan tanggal dan data penjualan total dan setiap produk
-        $currentDate = clone $startDate;
-        while ($currentDate <= $endDate) {
-            $dateString = $currentDate->format('d M Y');
+        // // Mengisi array dengan tanggal dan data penjualan total dan setiap produk
+        // $currentDate = clone $startDate;
+        // while ($currentDate <= $endDate) {
+        //     $dateString = $currentDate->format('d M Y');
             
-            // Menambahkan tanggal ke array
-            $chartData['dates'][] = $dateString;
+        //     // Menambahkan tanggal ke array
+        //     $chartData['dates'][] = $dateString;
         
-            // Menambahkan jumlah penjualan untuk setiap produk ke array
-            if (isset($dailySales[$dateString])) {
-                foreach ($dailySales[$dateString] as $product => $sales) {
-                    // Jika produk belum ada pada array, inisialisasi dengan 0 penjualan
-                    if (!isset($chartData['products'][$product])) {
-                        $chartData['products'][$product] = [];
-                    }
-                    $chartData['products'][$product][] = $sales; // Menambahkan penjualan produk ke array
-                }
-            } else {
-                // Jika tidak ada penjualan pada tanggal tertentu, inisialisasi semua produk dengan 0 penjualan
-                foreach ($chartData['products'] as $product => $salesArray) {
-                    $chartData['products'][$product][] = 0;
-                }
-            }
+        //     // Menambahkan jumlah penjualan untuk setiap produk ke array
+        //     if (isset($dailySales[$dateString])) {
+        //         foreach ($dailySales[$dateString] as $product => $sales) {
+        //             // Jika produk belum ada pada array, inisialisasi dengan 0 penjualan
+        //             if (!isset($chartData['products'][$product])) {
+        //                 $chartData['products'][$product] = [];
+        //             }
+        //             $chartData['products'][$product][] = $sales; // Menambahkan penjualan produk ke array
+        //         }
+        //     } else {
+        //         // Jika tidak ada penjualan pada tanggal tertentu, inisialisasi semua produk dengan 0 penjualan
+        //         foreach ($chartData['products'] as $product => $salesArray) {
+        //             $chartData['products'][$product][] = 0;
+        //         }
+        //     }
         
-            // Menambahkan total penjualan untuk hari ini ke array
-            $chartData['total_sales'][] = isset($totalSales[$dateString]) ? $totalSales[$dateString] : 0;
+        //     // Menambahkan total penjualan untuk hari ini ke array
+        //     $chartData['total_sales'][] = isset($totalSales[$dateString]) ? $totalSales[$dateString] : 0;
         
-            $currentDate->addDay(); // Melanjutkan ke hari berikutnya
-        }
+        //     $currentDate->addDay(); // Melanjutkan ke hari berikutnya
+        // }
 
         // dd($chartData, $salesData);
         $topstartDate = null;
         $topendDate = null;
 
-        switch ($filterTop) {
-            case 'yesterday':
-                $topstartDate = Carbon::yesterday()->startOfDay();
-                $topendDate = Carbon::yesterday()->endOfDay();
-                $topdate = Carbon::yesterday() -> format('d F Y');
-                break;
-            case 'today':
-                $topstartDate = Carbon::today()->startOfDay();
-                $topendDate = Carbon::today()->endOfDay();
-                $topdate = Carbon::today() -> format('d F Y');
-                break;
-            case 'last_7_days':
-                $topstartDate = Carbon::now()->subDays(6)->startOfDay(); // Mulai dari 7 hari yang lalu
-                $topendDate = Carbon::now()->endOfDay();
-                $topdate = $topstartDate->format('d F Y') . " - " . $topendDate->format('d F Y');
-                break;
-            case 'last_30_days':
-                $topstartDate = Carbon::now()->subDays(29)->startOfDay(); // Mulai dari 30 hari yang lalu
-                $topendDate = Carbon::now()->endOfDay();
-                $topdate = $topstartDate->format('d F Y') . " - " . $topendDate->format('d F Y');
-                break;
-            default:
-                // Filter default jika tidak ada yang sesuai
-                $topstartDate = Carbon::now()->subDays(6)->startOfDay(); // Default ke 7 hari yang lalu
-                $topendDate = Carbon::now()->endOfDay();
-                $topdate = $topstartDate->format('d F Y') . " - " . $topendDate->format('d F Y');
-                break;
-        }
+        $topdate = ''; // Initialize $topdate variable
+
+    $filterTop = $request->query('filterTop', 'last_7_days'); // Default to 'last_7_days' if filterTop is not provided
+
+    switch ($filterTop) {
+        case 'yesterday':
+            $startDate = Carbon::yesterday()->startOfDay();
+            $endDate = Carbon::yesterday()->endOfDay();
+            $topdate = 'Yesterday';
+            break;
+        case 'today':
+            $startDate = Carbon::today()->startOfDay();
+            $endDate = Carbon::today()->endOfDay();
+            $topdate = 'Today';
+            break;
+        case 'last_7_days':
+            $startDate = Carbon::today()->subDays(6)->startOfDay();
+            $endDate = Carbon::today()->endOfDay();
+            $topdate = 'Last 7 days';
+            break;
+        case 'last_30_days':
+            $startDate = Carbon::today()->subDays(29)->startOfDay();
+            $endDate = Carbon::today()->endOfDay();
+            $topdate = 'Last 30 days';
+            break;
+        default:
+            $startDate = Carbon::today()->subDays(6)->startOfDay();
+            $endDate = Carbon::today()->endOfDay();
+            $topdate = 'Last 7 days';
+            break;
+    }
 
         $salesData = Penjualan::whereBetween('date', [$topstartDate, $topendDate])
             ->selectRaw('product_id, SUM(sold) as total_sold')
@@ -206,16 +232,31 @@ class DashboardController extends Controller
         $notifications = $user->unreadNotifications;
         //dd ($notifications);
 
+
+        $today = now()->format('Y-m-d');
+      
+        $ingredients_stocks = DB::table('ingredient_stocks')
+            ->join('ingredients', 'ingredient_stocks.ingredient_id', '=', 'ingredients.id')
+            ->selectRaw('ingredients.unit, ingredients.ingredient_name, SUM(ingredient_stocks.out_stock) as total_out_stock')
+            ->whereBetween('ingredient_stocks.created_at', [$startDate, $endDate])
+            ->groupBy('ingredients.unit', 'ingredients.ingredient_name')
+            ->paginate(8)
+            ->withQueryString();
+        
+
         return view('dashboard')->with([
-            'totalproduct' => $totalproduct,
-            'totaluser' => $totaluser,
+            'totalproduct' => $totalProducts,
+            'product' => $products,
+            'totalexpired' => $totalExpiredSoon,
             'totalingredient' => $totalingredient,
             'chartData' => $chartData,
             'topSellingProducts' => $topSellingProducts,
             'totalSoldSum' => $totalSoldSum,
             'chartdate' => $chartdate,
             'topdate' => $topdate,
-            'notifications' => $notifications
+            'notifications' => $notifications,
+            'ingredient_stocks'=>$ingredients_stocks,
+
         ]);
     }
 

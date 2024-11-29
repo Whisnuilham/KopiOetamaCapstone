@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
+Route::post('/upload-excel', [ExcelController::class, 'upload'])->name('excel.upload');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/test-delete-expired-ingredients', [IngredientStockController::class, 'deleteExpiredIngredients']);

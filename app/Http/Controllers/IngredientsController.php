@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingredient;
 use App\Models\ActivityLog;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,24 +16,57 @@ class IngredientsController extends Controller
     public function index(Request $request)
     {
 
-        $ingredients=Ingredient::where('ingredient_name','like','%'.$request -> search.'%')
-        ->when ($request -> has('category'), function ($query) use ($request){
-            if ($request->category != '' && $request->category != 'all') {
-            $query -> where ('category', $request -> category);
-            }
-        })
-
-        ->latest()
-        ->paginate(10)
-        ->withQueryString();
-
+        $sortColumn = $request->get('sort', 'created_at');
+        $sortDirection = $request->get('direction', 'desc');
+    
+        // Define valid sort columns
+        $validSortColumns = ['ingredient_name', 'category', 'unit', 'sum_of_stock'];
+        if (!in_array($sortColumn, $validSortColumns)) {
+            $sortColumn = 'created_at';
+        }
+    
+        // Fetch ingredients with filtering
+        $ingredientsQuery = Ingredient::with('stocks')
+            ->when($request->has('search') && $request->search !== '', function ($query) use ($request) {
+                $query->where('ingredient_name', 'like', '%' . $request->search . '%');
+            })
+            ->when($request->has('category') && $request->category !== 'all', function ($query) use ($request) {
+                $query->where('category', $request->category);
+            });
+    
+        // Handle sorting
+        if ($sortColumn === 'sum_of_stock') {
+            // Fetch all ingredients and sort them by sum_of_stock in-memory
+            $ingredients = $ingredientsQuery->get()->sortBy(function ($ingredient) {
+                return $ingredient->sum_of_stock;
+            }, SORT_REGULAR, $sortDirection === 'desc' ? true : false)->values();
+        } else {
+            // Sort by SQL columns directly
+            $ingredients = $ingredientsQuery->orderBy($sortColumn, $sortDirection)->get();
+        }
+    
+        // Paginate the sorted results (if needed)
+        $perPage = 10;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPageResults = $ingredients->slice(($currentPage - 1) * $perPage, $perPage)->values();
+        $ingredientsPaginated = new LengthAwarePaginator(
+            $currentPageResults,
+            $ingredients->count(),
+            $perPage,
+            $currentPage,
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
+    
         // Get authenticated user's notifications
         $user = Auth::user();
         $notifications = $user->unreadNotifications;
-
+    
+        // Return view with data
         return view('pages.ingredients')->with([
-            'ingredients'=>$ingredients,
-            'notifications'=>$notifications
+            'ingredients' => $ingredientsPaginated,
+            'notifications' => $notifications,
+            'sortColumn' => $sortColumn,
+            'sortDirection' => $sortDirection,
         ]);
     }
 

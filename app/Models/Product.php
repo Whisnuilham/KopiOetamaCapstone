@@ -30,4 +30,8 @@ class Product extends Model
           'ingredient_id',
         )->withPivot('quantity')->withTimestamps();
     }
+    public function penjualan()
+    {
+        return $this->hasMany(Penjualan::class, 'product_id');
+    }
 }

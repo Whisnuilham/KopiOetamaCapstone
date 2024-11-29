@@ -19,39 +19,58 @@ class IngredientStockController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-
-        $ingredients_stocks=IngredientStock::
-        when($request -> has('search'), function ($query) use($request){
-            if ($request->search != '') {
-            $query -> whereHas ('ingredient', function($query2) use($request){
-                $query2 -> where('ingredient_name','like','%'.$request -> search.'%');
-            });
-        }
+{
+    $sortColumn = $request->get('sort', 'created_at');
+    $sortDirection = $request->get('direction', 'desc');
+    
+    $validSortColumns = ['ingredient_name', 'category', 'in_stock', 'out_stock', 'date', 'expired_date'];
+    if (!in_array($sortColumn, $validSortColumns)) {
+        $sortColumn = 'created_at';
+    }
+    $category_id = $request->input('category_id');
+    $ingredientStocks = IngredientStock::with('ingredient')
+        ->when($sortColumn === 'ingredient_name', function ($query) use ($sortDirection) {
+            $query->leftJoin('ingredients', 'ingredient_stocks.ingredient_id', '=', 'ingredients.id')
+                ->orderBy('ingredients.ingredient_name', $sortDirection);
         })
-
-        ->when ($request -> has('category'), function ($query) use ($request){
-            if ($request->category != '' && $request->category != 'all') {
-            $query -> whereHas ('ingredient', function($query2) use($request){
-                $query2 -> where ('category', $request -> category);
-            });
-        }
+        ->when($sortColumn === 'category', function ($query) use ($sortDirection) {
+            $query->leftJoin('ingredients', 'ingredient_stocks.ingredient_id', '=', 'ingredients.id')
+                ->orderBy('ingredients.category', $sortDirection);
         })
-        ->latest()
+        ->when(in_array($sortColumn, ['in_stock', 'out_stock', 'date', 'expired_date']), function ($query) use ($sortColumn, $sortDirection) {
+            $query->orderBy($sortColumn, $sortDirection);
+        })
+        ->when($request->has('search') && $request->search !== '', function ($query) use ($request) {
+            $query->whereHas('ingredient', function ($query) use ($request) {
+                $query->where('ingredient_name', 'like', '%' . $request->search . '%');
+            });
+        })
+        ->when($category_id && $category_id !== 'all', function ($query) use ($category_id) {
+            $query->whereHas('ingredient', function ($query) use ($category_id) {
+                $query->where('category', $category_id);
+            });
+        })
+        ->when($request->has('start_date') && $request->has('end_date'), function ($query) use ($request) {
+            $query->whereBetween('date', [$request->start_date, $request->end_date])
+                  ->orWhereBetween('expired_date', [$request->start_date, $request->end_date]);
+        })
+        ->latest('ingredient_stocks.created_at')
         ->paginate(10)
         ->withQueryString();
-        $ingredients=Ingredient::all();
+    
+    $ingredients = Ingredient::all();
+    $user = Auth::user();
+    $notifications = $user->unreadNotifications;
+    
+    return view('pages.ingredient_stock')->with([
+        'ingredient_stocks' => $ingredientStocks,
+        'ingredients' => $ingredients,
+        'notifications' => $notifications,
+        'sortColumn' => $sortColumn,
+        'sortDirection' => $sortDirection,
+    ]);
+}
 
-        // Get authenticated user's notifications
-        $user = Auth::user();
-        $notifications = $user->unreadNotifications;
-
-        return view('pages.ingredient_stock')->with([
-            'ingredient_stocks'=>$ingredients_stocks,
-            'ingredients'=>$ingredients,
-            'notifications' => $notifications
-        ]);
-    }
 
     /**
      * Show the form for creating a new resource.

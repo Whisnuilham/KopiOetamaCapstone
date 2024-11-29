@@ -17,46 +17,67 @@ class PenjualanController extends Controller
      */
     public function index(Request $request)
     {
-        $categories=Category::all();
-        $products=Product::all();
-        $penjualans=Penjualan::
-        when($request -> has('search'), function ($query) use($request){
-            if ($request->search != '') {
-                $query -> whereHas ('product', function($query2) use($request){
-                    $query2 -> where('product_name','like','%'.$request -> search.'%');
-                });
-            }
-        })
+        // Retrieve all categories and products
+$categories = Category::all();
+$products = Product::all();
 
-        ->when ($request -> has('category_id'), function ($query) use ($request){
-            if ($request->category_id != '' && $request->category_id != 'all') {
-                $query -> whereHas ('product', function($query2) use($request){
-                    $query2 -> where ('category_id', $request -> category_id);
-                });
-            }
+// Sorting logic
+$sortColumn = $request->get('sort', 'created_at');
+$sortDirection = $request->get('direction', 'desc');
 
-        })
+// Valid sort columns
+$validSortColumns = ['product_name', 'category_id', 'sold', 'date'];
 
-        ->when ($request -> has('date'), function ($query) use ($request){
-            if ($request->date != '') {
-                $query -> where ('date', $request -> date);
-            }
-        })
-        ->latest()
-        ->paginate(10)
-        ->withQueryString();
+// Ensure sort column is valid, default to 'created_at' if invalid
+if (!in_array($sortColumn, $validSortColumns)) {
+    $sortColumn = 'created_at';
+}
 
-        // Get authenticated user's notifications
-        $user = Auth::user();
-        $notifications = $user->unreadNotifications;
-        
-        return view('pages.penjualan')->with([
-            'penjualans'=>$penjualans,
-            'products'=>$products,
-            'categories'=>$categories,
-            'notifications'=>$notifications
+// Initialize query builder for Penjualan (Sales)
+$penjualans = Penjualan::with('product')
+    ->when($sortColumn === 'product_name', function ($query) use ($sortDirection) {
+        $query->leftJoin('products', 'penjualans.product_id', '=', 'products.id')
+            ->orderBy('products.product_name', $sortDirection);
+    })
+    ->when($sortColumn === 'category_id', function ($query) use ($sortDirection) {
+        $query->leftJoin('products', 'penjualans.product_id', '=', 'products.id')
+            ->orderBy('products.category_id', $sortDirection);
+    })
+    ->when(in_array($sortColumn, ['sold', 'date']), function ($query) use ($sortColumn, $sortDirection) {
+        // Specify the table name for 'created_at'
+        $query->orderBy('penjualans.' . $sortColumn, $sortDirection);
+    })
+    ->when($request->filled('search'), function ($query) use ($request) {
+        $query->whereHas('product', function ($query) use ($request) {
+            $query->where('product_name', 'like', '%' . $request->search . '%');
+        });
+    })
+    ->when($request->filled('category_id') && $request->category_id !== 'all', function ($query) use ($request) {
+        $query->whereHas('product', function ($query) use ($request) {
+            $query->where('category_id', $request->category_id);
+        });
+    })
+    ->when($request->filled('date'), function ($query) use ($request) {
+        $query->whereDate('date', $request->date);
+    })
+    ->latest('penjualans.created_at') // Specify the table name for 'created_at' here as well
+    ->paginate(10)
+    ->withQueryString();
 
-        ]);
+
+// Get authenticated user's notifications
+$user = Auth::user();
+$notifications = $user->unreadNotifications;
+
+return view('pages.penjualan')->with([
+    'penjualans' => $penjualans,
+    'products' => $products,
+    'categories' => $categories,
+    'notifications' => $notifications,
+    'sortColumn' => $sortColumn,
+    'sortDirection' => $sortDirection,
+]);
+
     }
 
     /**

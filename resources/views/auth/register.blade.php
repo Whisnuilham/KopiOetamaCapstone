@@ -3,10 +3,8 @@
     <section class="h-screen w-full bg-center bg-no-repeat bg-gray-700 bg-blend-multiply relative"
      style="background: url({{ asset('images/bg_login.png') }}); background-repeat: no-repeat; background-size: cover;">
 
-     <div class="h-full w-full bg-gradient-to-br from-gray-900 to-transparent opacity-80 mask-layer absolute top-0 left-0">
-     </div>
-        <div class="container flex items-center justify-center h-full relative">
-            <div class="w-96 bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
+     <div class="absolute inset-0 flex items-center justify-center">
+        <div class="w-96 bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
                 <img class="h-28 mx-auto mb-8" src="{{ asset('images/Logo.png') }}" alt="image description">
                 <form method="POST" action="{{ route('register') }}">
                     @csrf

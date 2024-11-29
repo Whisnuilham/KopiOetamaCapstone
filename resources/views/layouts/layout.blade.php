@@ -43,7 +43,9 @@
         }
     </script>
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+<link rel="stylesheet" href="/build/assets/app-YeunFe2A.css">
+
+<script defer src="/build/assets/app-_yI7u8aA.js"></script>
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-800">

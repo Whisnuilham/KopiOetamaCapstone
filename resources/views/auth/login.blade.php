@@ -1,11 +1,7 @@
 @extends('layouts.blank')
 @section('content')
-    <section class="h-screen w-full bg-center bg-no-repeat bg-gray-700 bg-blend-multiply relative"
-        style="background: url({{ asset('images/bg_login.png') }}); background-repeat: no-repeat; background-size: cover;">
-        <div
-            class="h-full w-full bg-gradient-to-br from-gray-900 to-transparent opacity-80 mask-layer absolute top-0 left-0">
-        </div>
-        <div class="container flex items-center justify-center h-full relative">
+    <section class="h-screen w-full bg-center bg-no-repeat bg-gray-700 bg-blend-multiply relative flex items-center justify-center" style="background: url({{ asset('images/bg_login.png') }}); background-repeat: no-repeat; background-size: cover;">
+        <div class="absolute inset-0 flex items-center justify-center">
             <div class="w-96 bg-white bg-opacity-90 p-8 rounded-lg shadow-lg">
 
                 @if (session('success'))
@@ -63,10 +59,10 @@
                             <input type="password" id="password" name="password"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Enter your password here" required>
-                            <button type="button" id="show-password-btn"
-                                class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 focus:outline-none">
-                                <i class="fas fa-eye"></i>
-                            </button>
+                            <!--<button type="button" id="show-password-btn"-->
+                            <!--    class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-500 focus:outline-none">-->
+                            <!--    <i class="fas fa-eye"></i>-->
+                            <!--</button>-->
                         </div>
                     </div>
                     <div class="flex items-center justify-between">
